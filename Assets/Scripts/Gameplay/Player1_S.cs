@@ -13,7 +13,7 @@ public class Player1_S : MonoBehaviour
 
     private bool facingRight = true;
 
-    [Header("Health Settings")]
+    [Header("Properties")]
     [SerializeField]
     private float speed = 4f;
 
