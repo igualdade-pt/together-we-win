@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -11,23 +12,28 @@ public class MainMenuManager : MonoBehaviour
 
     private UIManager_MM uiManager_MM;
 
+    private GameInstanceScript gameInstance;
+
+    [SerializeField]
+    private int indexGameplayScene = 3;
+
     private void Start()
     {
         // Orientation Screen
-        Screen.orientation = ScreenOrientation.LandscapeLeft;
+        /*Screen.orientation = ScreenOrientation.LandscapeLeft;
 
         Screen.autorotateToLandscapeRight = true;
         Screen.autorotateToLandscapeLeft = true;
         Screen.autorotateToPortrait = false;
         Screen.autorotateToPortraitUpsideDown = false;
 
-        Screen.orientation = ScreenOrientation.AutoRotation;
+        Screen.orientation = ScreenOrientation.AutoRotation;*/
 
+
+        gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
 
         // Attribute Language      
-        indexLanguage = PlayerPrefs.GetInt("languageSystem", 0);
-
-        
+        indexLanguage = gameInstance.LanguageIndex;
         switch (indexLanguage)
         {
             case 0:
@@ -58,18 +64,41 @@ public class MainMenuManager : MonoBehaviour
 
         uiManager_MM = FindObjectOfType<UIManager_MM>().GetComponent<UIManager_MM>();
 
+        uiManager_MM.UpdateLanguage(indexLanguage);
+
+        if (PlayerPrefs.HasKey("unlockedLevels")) 
+        {
+            Debug.Log("Has Key unlockedLevels, value: " + PlayerPrefs.GetInt("unlockedLevels", 0));
+            uiManager_MM.UpdadeLevelButtons(PlayerPrefs.GetInt("unlockedLevels", 0));
+        }
+        else
+        {
+            uiManager_MM.UpdadeLevelButtons(0);
+        }
+        
     }
 
-
-    private void Update()
+    public void LoadScene(int indexScene)
     {
-
+        SceneManager.LoadScene(indexScene);
     }
 
-    public void LoadScene(int indexScene, int indexLevel)
+    public void LoadAsyncGamePlay(int indexLevel)
     {
-        PlayerPrefs.SetInt("indexLevel", indexLevel);
-        Debug.Log("Scene Index = " + indexScene);
+        gameInstance.LevelIndex = indexLevel;
+        StartCoroutine(StartLoadAsyncScene(indexGameplayScene));
     }
-    
+
+    private IEnumerator StartLoadAsyncScene(int indexScene)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexScene);
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            Debug.Log(asyncLoad.progress);
+            yield return null;
+        }
+    }
+
 }

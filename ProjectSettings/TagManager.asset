@@ -14,8 +14,8 @@ TagManager:
   - 
   - 
   - Player
-  - 
-  - 
+  - PlayerFeet
+  - Limits
   - 
   - 
   - 
@@ -46,6 +46,9 @@ TagManager:
     locked: 0
   - name: Props
     uniqueID: 503945665
+    locked: 0
+  - name: Player
+    uniqueID: 1359940611
     locked: 0
   - name: Foreground
     uniqueID: 1958963897

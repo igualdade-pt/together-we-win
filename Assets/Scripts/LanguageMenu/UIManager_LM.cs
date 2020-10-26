@@ -14,14 +14,20 @@ public class UIManager_LM : MonoBehaviour
     private Sprite[] flags;
 
     [SerializeField]
-    private Text textLanguage;
+    private RectTransform [] tFlags;
 
     [SerializeField]
-    private Button buttonRight;
+    private float[] xFlags;
+
+
+    [SerializeField]
+    private Text textLanguage;
 
     private LanguageMenuManager languageMenuManager;
 
     private int currentIndexFlag;
+
+
 
     private void Start()
     {
@@ -32,42 +38,68 @@ public class UIManager_LM : MonoBehaviour
     public void UpdateFlag(int indexLanguage)
     {
         // Change Flag
-        flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
+        //flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
+
+        int t = indexLanguage - Mathf.FloorToInt(xFlags.Length / 2);
+         
+        if (t < 0)
+        {
+            t += xFlags.Length;
+        }
+
+        //print();
+
+        for (int i = 0; i < tFlags.Length; i++)
+        {
+            if (t < xFlags.Length - 1)
+            {
+                t++;
+            }
+            else
+            {
+                t = 0;
+            }           
+
+            tFlags[i].anchoredPosition = new Vector2(xFlags[t], tFlags[i].anchoredPosition.y);
+
+            print(tFlags[i].anchoredPosition.x);
+        }
 
         // Change Title
         switch (indexLanguage)
         {
             case 0:
                 // English
-                textLanguage.text = "Language";
+                textLanguage.text = "English";
                 break;
 
             case 1:
                 // Italian
-                textLanguage.text = "Linguaggio";
+                textLanguage.text = "Italiano";
                 break;
 
             case 2:
                 // Portuguese
-                textLanguage.text = "Idioma";
+                textLanguage.text = "Português";
                 break;
 
             case 3:
                 // Spanish
-                textLanguage.text = "Idioma";
+                textLanguage.text = "Español";
                 break;
 
             case 4:
                 // Swedish
-                textLanguage.text = "Språk";
+                textLanguage.text = "Svenska";
                 break;
 
             default:
                 // English
-                textLanguage.text = "Language";
+                textLanguage.text = "English";
                 break;
         }
     }
+
 
 
     public void _RightButtonClick()
@@ -80,7 +112,8 @@ public class UIManager_LM : MonoBehaviour
         {
             currentIndexFlag = 0;
         }
-        
+
+
 
         Debug.Log("Current Index Flag: " + currentIndexFlag);
         UpdateFlag(currentIndexFlag);
@@ -97,6 +130,8 @@ public class UIManager_LM : MonoBehaviour
         {
             currentIndexFlag = flags.Length - 1;
         }
+
+
 
         Debug.Log("Current Index Flag: " + currentIndexFlag);
         UpdateFlag(currentIndexFlag);

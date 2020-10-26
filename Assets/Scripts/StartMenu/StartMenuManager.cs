@@ -9,11 +9,13 @@ public class StartMenuManager : MonoBehaviour
 
     private UIManager_SM uiManager;
 
+    private GameInstanceScript gameInstance;
+
     private void Start()
     {
-
-        // Attribute Language      
-        indexLanguage = PlayerPrefs.GetInt("languageSystem", 0);
+        // Attribute Language 
+        gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
+        indexLanguage = gameInstance.LanguageIndex;
         switch (indexLanguage)
         {
             case 0:
@@ -46,6 +48,8 @@ public class StartMenuManager : MonoBehaviour
         uiManager = FindObjectOfType<UIManager_SM>().GetComponent<UIManager_SM>();
 
         uiManager.UpdateLanguage(indexLanguage);
+
+
     }
 
 
