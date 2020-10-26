@@ -10,14 +10,20 @@ public class UIManager_LM : MonoBehaviour
     [SerializeField]
     private Image flagImage;
 
-    [SerializeField]
-    private Sprite[] flags;
+    //[SerializeField]
+    //private Sprite[] flags;
 
     [SerializeField]
     private RectTransform [] tFlags;
 
     [SerializeField]
     private float[] xFlags;
+
+    [SerializeField]
+    private LeanTweenType easeType;
+
+    [SerializeField]
+    private AnimationCurve curve;
 
 
     [SerializeField]
@@ -39,31 +45,44 @@ public class UIManager_LM : MonoBehaviour
     {
         // Change Flag
         //flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
-
         int t = indexLanguage - Mathf.FloorToInt(xFlags.Length / 2);
-         
         if (t < 0)
         {
             t += xFlags.Length;
         }
 
-        //print();
-
         for (int i = 0; i < tFlags.Length; i++)
         {
-            if (t < xFlags.Length - 1)
+            if (t > 0)
             {
-                t++;
+                t--;
             }
             else
             {
-                t = 0;
-            }           
+                t = xFlags.Length - 1;
+            }
 
-            tFlags[i].anchoredPosition = new Vector2(xFlags[t], tFlags[i].anchoredPosition.y);
+            if (t == 2 || t == 1 || t == 3)
+            {
+                if (easeType == LeanTweenType.animationCurve)
+                {
+                    LeanTween.moveX(tFlags[i], xFlags[t], 0.5f).setEase(curve);
+                }
+                else
+                {
+                    LeanTween.moveX(tFlags[i], xFlags[t], 0.5f).setEase(easeType);
+                }
 
-            print(tFlags[i].anchoredPosition.x);
+
+            }
+            else
+            {
+                tFlags[i].anchoredPosition = new Vector2(xFlags[t], tFlags[i].anchoredPosition.y);
+            }
+
         }
+
+
 
         // Change Title
         switch (indexLanguage)
@@ -104,7 +123,7 @@ public class UIManager_LM : MonoBehaviour
 
     public void _RightButtonClick()
     {
-        if (currentIndexFlag < flags.Length - 1)
+        if (currentIndexFlag < tFlags.Length - 1)
         {
             currentIndexFlag++;
         }
@@ -128,7 +147,7 @@ public class UIManager_LM : MonoBehaviour
         }
         else
         {
-            currentIndexFlag = flags.Length - 1;
+            currentIndexFlag = tFlags.Length - 1;
         }
 
 
