@@ -14,7 +14,7 @@ public class UIManager_LM : MonoBehaviour
     //private Sprite[] flags;
 
     [SerializeField]
-    private RectTransform [] tFlags;
+    private RectTransform[] tFlags;
 
     [SerializeField]
     private float[] xFlags;
@@ -37,7 +37,70 @@ public class UIManager_LM : MonoBehaviour
 
     private void Start()
     {
-       languageMenuManager = FindObjectOfType<LanguageMenuManager>().GetComponent<LanguageMenuManager>();
+        languageMenuManager = FindObjectOfType<LanguageMenuManager>().GetComponent<LanguageMenuManager>();
+    }
+
+    public void InitUpdateFlag(int indexLanguage)
+    {
+        // Change Flag
+        //flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
+        int t = indexLanguage - Mathf.FloorToInt(xFlags.Length / 2);
+        if (t < 0)
+        {
+            t += xFlags.Length;
+        }
+
+        for (int i = 0; i < tFlags.Length; i++)
+        {
+            if (t > 0)
+            {
+                t--;
+            }
+            else
+            {
+                t = xFlags.Length - 1;
+            }
+
+            tFlags[i].anchoredPosition = new Vector2(xFlags[t], tFlags[i].anchoredPosition.y);
+
+        }
+
+
+
+        // Change Title
+        switch (indexLanguage)
+        {
+            case 0:
+                // English
+                textLanguage.text = "English";
+                break;
+
+            case 1:
+                // Italian
+                textLanguage.text = "Italiano";
+                break;
+
+            case 2:
+                // Portuguese
+                textLanguage.text = "Português";
+                break;
+
+            case 3:
+                // Spanish
+                textLanguage.text = "Español";
+                break;
+
+            case 4:
+                // Swedish
+                textLanguage.text = "Svenska";
+                break;
+
+            default:
+                // English
+                textLanguage.text = "English";
+                break;
+        }
+
     }
 
 
@@ -159,7 +222,7 @@ public class UIManager_LM : MonoBehaviour
 
     public void _ConfirmButton()
     {
-        languageMenuManager.LoadLevel();    
+        languageMenuManager.LoadLevel();
     }
 
     public int ChangeCurrentIndexFlag

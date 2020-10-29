@@ -122,15 +122,60 @@ public class GameplayManager : MonoBehaviour
                 Levels[0].SetActive(true);
                 break;
         }
+
+        switch (gameInstance.DifficultyLevelIndex)
+        {
+            // Difficulty Basic
+            case 0:
+
+
+                Debug.Log("Level Difficulty Basic:  " + gameInstance.DifficultyLevelIndex);
+                break;
+
+            // Difficulty Expert
+            case 1:
+
+
+                Debug.Log("Level Difficulty Expert: " + gameInstance.DifficultyLevelIndex);
+                break;
+
+            default:
+                Debug.Log("Error Getting Difficulty Level: " + gameInstance.DifficultyLevelIndex + "; Default Difficulty: Basic");
+
+                break;
+        }
     }
 
     public void GameEnded(bool won)
     {
         if (doOnce)
         {
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
             doOnce = false;
             if (won)
-            {
+            {               
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (players[i] != gameObject)
+                    {
+                        //players[i].GetComponent<Player1_S>().SetSpeed(0);
+                    }
+                }
+                
+
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    if (enemies[i] != gameObject)
+                    {
+                        enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
+                        enemies[i].GetComponent<Enemy_S>().GameEnded(won);
+                    }
+                }
+
                 if (indexLevel == 0)
                 {
                     playersLight.intensity = 0;
@@ -150,6 +195,25 @@ public class GameplayManager : MonoBehaviour
             }
             else
             {
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (players[i] != gameObject)
+                    {
+                        //players[i].GetComponent<Player1_S>().SetSpeed(0);
+                    }
+                }
+
+
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    if (enemies[i] != gameObject)
+                    {
+                        enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
+                        enemies[i].GetComponent<Enemy_S>().GameEnded(won);
+                    }
+                }
+
                 Debug.Log("LOST");
                 StartCoroutine(StartLoadAsyncScene());
             }

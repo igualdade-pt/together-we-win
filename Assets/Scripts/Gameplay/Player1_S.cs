@@ -107,7 +107,6 @@ public class Player1_S : MonoBehaviour
         if (other.tag == "Player")
         {
             other.GetComponent<Player_S>().SetSpeed(0);
-            //other.GetComponent<EnemyScript>().TakeDamage(damage);
             gameplayManager.GameEnded(true);
         }
         if (other.tag == "Enemy")

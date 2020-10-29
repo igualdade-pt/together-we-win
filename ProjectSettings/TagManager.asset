@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - PlayerFeet
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - Player
   - PlayerFeet
   - Limits
-  - 
-  - 
+  - EnemyFeet
+  - ObstacleEnemy
   - 
   - 
   - 
@@ -47,7 +49,7 @@ TagManager:
   - name: Props
     uniqueID: 503945665
     locked: 0
-  - name: Player
+  - name: PlayerEnemy
     uniqueID: 1359940611
     locked: 0
   - name: Foreground

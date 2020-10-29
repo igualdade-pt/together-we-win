@@ -32,6 +32,13 @@ public class UIManager_MM : MonoBehaviour
         mainMenuManager.LoadScene(indexScene);
     }
 
+    public void _AgeButtonClicked(int indexScene)
+    {
+        Debug.Log("Age Clicked, Index Scene: " + indexScene);
+
+        mainMenuManager.LoadScene(indexScene);
+    }
+
     public void _BooksButtonClicked()
     {
 
@@ -67,6 +74,10 @@ public class UIManager_MM : MonoBehaviour
         for (int j = 0; j < unlock; j++)
         {
             levelButtons[j].SetActive(true);
+            if (j >= unlock-1)
+            {
+                LeanTween.scale(levelButtons[j], levelButtons[j].transform.localScale * 1.2f, 0.5f).setLoopPingPong();
+            }
         }
     }
 }

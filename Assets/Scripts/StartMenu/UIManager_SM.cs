@@ -33,6 +33,13 @@ public class UIManager_SM : MonoBehaviour
         startMenuManager.LoadScene(indexScene);
     }
 
+    public void _AgeButtonClicked(int indexScene)
+    {
+        Debug.Log("Age Clicked, Index Scene: " + indexScene);
+
+        startMenuManager.LoadScene(indexScene);
+    }
+
     public void _BooksButtonClicked ()
     {
 

@@ -86,7 +86,7 @@ public class LanguageMenuManager : MonoBehaviour
 
         uiManager_LM = FindObjectOfType<UIManager_LM>().GetComponent<UIManager_LM>();
 
-        uiManager_LM.UpdateFlag(indexLanguage);
+        uiManager_LM.InitUpdateFlag(indexLanguage);
         uiManager_LM.ChangeCurrentIndexFlag = indexLanguage;
 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
