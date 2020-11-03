@@ -160,16 +160,20 @@ public class GameplayManager : MonoBehaviour
 
                 for (int i = 0; i < players.Length; i++)
                 {
-                    if (players[i] != gameObject)
+                    if (players[i].GetComponent<Player1_S>() != null)
                     {
-                        //players[i].GetComponent<Player1_S>().SetSpeed(0);
+                        players[i].GetComponent<Player1_S>().SetSpeed(0);                       
+                    }
+                    else
+                    {
+                        players[i].GetComponent<Player_S>().SetSpeed(0);
                     }
                 }
                 
 
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    if (enemies[i] != gameObject)
+                    if (enemies[i] != null)
                     {
                         enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
                         enemies[i].GetComponent<Enemy_S>().GameEnded(won);
@@ -198,17 +202,25 @@ public class GameplayManager : MonoBehaviour
 
                 for (int i = 0; i < players.Length; i++)
                 {
-                    if (players[i] != gameObject)
+                    if (players[i] != null)
                     {
-                        //players[i].GetComponent<Player1_S>().SetSpeed(0);
+                        if (players[i].GetComponent<Player1_S>() != null)
+                        {
+                            players[i].GetComponent<Player1_S>().SetSpeed(0);
+                        }
+                        else
+                        {
+                            players[i].GetComponent<Player_S>().SetSpeed(0);
+                        }
                     }
                 }
 
 
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    if (enemies[i] != gameObject)
+                    if (enemies[i] != null)
                     {
+                        Debug.Log(enemies[i]);
                         enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
                         enemies[i].GetComponent<Enemy_S>().GameEnded(won);
                     }

@@ -22,7 +22,11 @@ public class Player1_S : MonoBehaviour
 
     private GameObject[] players;
 
+    private GameObject[] enemies;
+
     private GameObject otherPlayer;
+
+    private GameObject enemy;
 
     private void Start()
     {
@@ -34,6 +38,8 @@ public class Player1_S : MonoBehaviour
         // LAYER
         players = GameObject.FindGameObjectsWithTag("Player");
 
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != gameObject)
@@ -43,10 +49,21 @@ public class Player1_S : MonoBehaviour
             }
         }
 
+        enemy = enemies[0];
+
         float myY = gameObject.transform.position.y;
         float otherY = otherPlayer.transform.position.y;
-        if (myY > otherY)
-        { 
+        float enem = enemy.transform.position.y + 1;
+
+        float max = Mathf.Max(myY, otherY, enem);
+        float min = Mathf.Min(myY, otherY, enem);
+
+        if (myY == min)
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+        }
+        else if (myY == max)
+        {
             gameObject.GetComponent<Renderer>().sortingOrder = 0;
         }
         else
@@ -55,6 +72,31 @@ public class Player1_S : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        // LAYER
+        float myY = gameObject.transform.position.y;
+        float otherY = otherPlayer.transform.position.y;
+        float enem = enemy.transform.position.y + 1;
+
+        float max = Mathf.Max(myY, otherY, enem);
+        float min = Mathf.Min(myY, otherY, enem);
+        if (myY == min)
+        {
+
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+        }
+        else if (myY == max)
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 0;
+        }
+        else
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 1;
+        }
+        
+    }
 
     private void FixedUpdate()
     {
@@ -79,18 +121,10 @@ public class Player1_S : MonoBehaviour
             myAnimator.SetFloat("speed", Mathf.Abs(0));
         }
 
+        // SCALE
+        //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
 
-        // LAYER
-        float myY = gameObject.transform.position.y;
-        float otherY = otherPlayer.transform.position.y;
-        if (myY > otherY)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 0;
-        }
-        else
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 1;
-        }
+        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.5f), 0.73f, 3f);
     }
 
     private void Flip()
@@ -106,10 +140,9 @@ public class Player1_S : MonoBehaviour
 
         if (other.tag == "Player")
         {
-            other.GetComponent<Player_S>().SetSpeed(0);
             gameplayManager.GameEnded(true);
         }
-        if (other.tag == "Enemy")
+        if (other.tag == "EnemyCollider")
         {
             gameplayManager.GameEnded(false);
         }

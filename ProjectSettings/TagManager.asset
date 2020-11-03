@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - PlayerFeet
+  - EnemyCollider
   layers:
   - Default
   - TransparentFX
@@ -18,9 +19,9 @@ TagManager:
   - Player
   - PlayerFeet
   - Limits
-  - EnemyFeet
+  - EnemyCollider
   - ObstacleEnemy
-  - 
+  - Enemy
   - 
   - 
   - 

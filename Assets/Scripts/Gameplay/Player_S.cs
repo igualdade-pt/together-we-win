@@ -16,9 +16,15 @@ public class Player_S : MonoBehaviour
 
     private GameplayManager gameplayManager;
 
+    // ---- Layer
     private GameObject [] players;
 
+    private GameObject[] enemies;
+
     private GameObject otherPlayer;
+
+    private GameObject enemy;
+
 
     private void Start()
     {
@@ -29,6 +35,8 @@ public class Player_S : MonoBehaviour
         // LAYER
         players = GameObject.FindGameObjectsWithTag("Player");
 
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
         for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != gameObject)
@@ -38,9 +46,43 @@ public class Player_S : MonoBehaviour
             }
         }
 
+        enemy = enemies[0];
+
         float myY = gameObject.transform.position.y;
         float otherY = otherPlayer.transform.position.y;
-        if (myY > otherY)
+        float enem = enemy.transform.position.y + 1;
+
+        float max = Mathf.Max(myY, otherY, enem);
+        float min = Mathf.Min(myY, otherY, enem);
+        if (myY == min)
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+        }
+        else if (myY == max)
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 0;
+        }
+        else
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 1;
+        }
+
+    }
+
+    private void Update()
+    {
+        // LAYER
+        float myY = gameObject.transform.position.y;
+        float otherY = otherPlayer.transform.position.y;
+        float enem = enemy.transform.position.y + 1;
+
+        float max = Mathf.Max(myY, otherY, enem);
+        float min = Mathf.Min(myY, otherY, enem);
+        if (myY == min)
+        {
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+        }
+        else if (myY == max)
         {
             gameObject.GetComponent<Renderer>().sortingOrder = 0;
         }
@@ -58,29 +100,19 @@ public class Player_S : MonoBehaviour
         Vector2 move = joyStick.Direction * speed;
         myRigid.velocity = move;
 
+        // SCALE
+        //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
 
-        // LAYER
-        float myY = gameObject.transform.position.y;
-        float otherY = otherPlayer.transform.position.y;
-        if (myY > otherY)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 0;
-        }
-        else
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 1;
-        }
+        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f/7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.93f, 3f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-
         if (other.tag == "Player")
         {
-            other.GetComponent<Player1_S>().SetSpeed(0);
             gameplayManager.GameEnded(true);
         }
-        if (other.tag == "Enemy")
+        if (other.tag == "EnemyCollider")
         {
             gameplayManager.GameEnded(false);
         }

@@ -65,6 +65,13 @@ public class Enemy_S : MonoBehaviour
 
     private bool sawPlayer;
 
+    // ---- Layer
+    [Header("GFX")]
+    [SerializeField]
+    private SpriteRenderer mySpriteRenderer;
+
+    private GameObject[] players;
+
     private void Awake()
     {
         agent = GetComponent<IAstarAI>();
@@ -125,11 +132,57 @@ public class Enemy_S : MonoBehaviour
                 delay = delay_B;
                 break;
         }
+
+        // LAYER
+        players = GameObject.FindGameObjectsWithTag("Player");
+
+        float myY = gameObject.transform.position.y + 1;
+        float p1 = players[0].transform.position.y;
+        float p2 = players[1].transform.position.y;
+
+        float max = Mathf.Max(myY, p1, p2);
+        float min = Mathf.Min(myY, p1, p2);
+        if (myY == min)
+        {
+            mySpriteRenderer.sortingOrder = 2;
+        }
+        else if (myY == max)
+        {
+            mySpriteRenderer.sortingOrder = 0;
+        }
+        else
+        {
+            mySpriteRenderer.sortingOrder = 1;
+        }
+        
     }
 
 
     private void Update()
     {
+        // LAYER
+        float myY = gameObject.transform.position.y + 1;
+        float p1 = players[0].transform.position.y;
+        float p2 = players[1].transform.position.y;
+
+        float max = Mathf.Max(myY, p1, p2);
+        float min = Mathf.Min(myY, p1, p2);
+        if (myY == min)
+        {
+
+            mySpriteRenderer.sortingOrder = 2;
+        }
+        else if (myY == max)
+        {
+            mySpriteRenderer.sortingOrder = 0;
+        }
+        else
+        {
+            mySpriteRenderer.sortingOrder = 1;
+        }
+
+
+        // AGENT MOVEMENT
         if (agent == null) return;
 
         if (!sawPlayer) // Patrol
@@ -161,8 +214,18 @@ public class Enemy_S : MonoBehaviour
         }
     }
 
+
+    private void FixedUpdate()
+    {
+        // SCALE
+        //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
+
+        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.9f, 3f);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log(other.tag);
         if (other.tag == "PlayerFeet")
         {
             // Set the destination the player Transform
@@ -201,9 +264,11 @@ public class Enemy_S : MonoBehaviour
         return randomPoint;
     }
 
-    public void SetSpeed(float temp)
+    public void SetSpeed(float speed)
     {
-        agent.maxSpeed = temp;
+        Debug.Log(speed + " HELLO?");
+        agent.maxSpeed = speed;
+        agent.canMove = false;
     }
 
     public void GameEnded(bool won)

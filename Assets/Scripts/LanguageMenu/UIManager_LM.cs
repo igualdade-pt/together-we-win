@@ -22,6 +22,9 @@ public class UIManager_LM : MonoBehaviour
     [SerializeField]
     private LeanTweenType easeType;
 
+    private float previousTime = 0;
+
+
     [SerializeField]
     private AnimationCurve curve;
 
@@ -34,7 +37,6 @@ public class UIManager_LM : MonoBehaviour
     private int currentIndexFlag;
 
 
-
     private void Start()
     {
         languageMenuManager = FindObjectOfType<LanguageMenuManager>().GetComponent<LanguageMenuManager>();
@@ -43,7 +45,6 @@ public class UIManager_LM : MonoBehaviour
     public void InitUpdateFlag(int indexLanguage)
     {
         // Change Flag
-        //flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
         int t = indexLanguage - Mathf.FloorToInt(xFlags.Length / 2);
         if (t < 0)
         {
@@ -101,13 +102,13 @@ public class UIManager_LM : MonoBehaviour
                 break;
         }
 
+        previousTime = Time.time;
     }
 
 
     public void UpdateFlag(int indexLanguage)
     {
         // Change Flag
-        //flagImage.sprite = flags[Mathf.Clamp(indexLanguage, 0, flags.Length - 1)];
         int t = indexLanguage - Mathf.FloorToInt(xFlags.Length / 2);
         if (t < 0)
         {
@@ -127,24 +128,27 @@ public class UIManager_LM : MonoBehaviour
 
             if (t == 2 || t == 1 || t == 3)
             {
+                float time = Time.time - previousTime - 0.1f;
+                time = Mathf.Clamp(time, 0f, 0.5f);
+                if (time < 0.18)
+                {
+                    time = 0;
+                }
                 if (easeType == LeanTweenType.animationCurve)
                 {
-                    LeanTween.moveX(tFlags[i], xFlags[t], 0.5f).setEase(curve);
+                    LeanTween.moveX(tFlags[i], xFlags[t], time).setEase(curve);
                 }
                 else
                 {
-                    LeanTween.moveX(tFlags[i], xFlags[t], 0.5f).setEase(easeType);
+                    LeanTween.moveX(tFlags[i], xFlags[t], time).setEase(easeType);
                 }
-
-
             }
             else
             {
+                LeanTween.cancel(tFlags[i]);
                 tFlags[i].anchoredPosition = new Vector2(xFlags[t], tFlags[i].anchoredPosition.y);
             }
-
         }
-
 
 
         // Change Title
@@ -180,44 +184,50 @@ public class UIManager_LM : MonoBehaviour
                 textLanguage.text = "English";
                 break;
         }
+
+        previousTime = Time.time;
     }
 
 
 
     public void _RightButtonClick()
     {
-        if (currentIndexFlag < tFlags.Length - 1)
+        float time = Time.time - previousTime;
+        if (time > 0.25f)
         {
-            currentIndexFlag++;
-        }
-        else
-        {
-            currentIndexFlag = 0;
-        }
+            if (currentIndexFlag < tFlags.Length - 1)
+            {
+                currentIndexFlag++;
+            }
+            else
+            {
+                currentIndexFlag = 0;
+            }
 
-
-
-        Debug.Log("Current Index Flag: " + currentIndexFlag);
-        UpdateFlag(currentIndexFlag);
-        languageMenuManager.ChangeLanguageIndex = currentIndexFlag;
+            Debug.Log("Current Index Flag: " + currentIndexFlag);
+            UpdateFlag(currentIndexFlag);
+            languageMenuManager.ChangeLanguageIndex = currentIndexFlag;
+        }       
     }
 
     public void _LeftButtonClick()
     {
-        if (currentIndexFlag > 0)
+        float time = Time.time - previousTime;
+        if (time > 0.25f)
         {
-            currentIndexFlag--;
+            if (currentIndexFlag > 0)
+            {
+                currentIndexFlag--;
+            }
+            else
+            {
+                currentIndexFlag = tFlags.Length - 1;
+            }
+
+            Debug.Log("Current Index Flag: " + currentIndexFlag);
+            UpdateFlag(currentIndexFlag);
+            languageMenuManager.ChangeLanguageIndex = currentIndexFlag;
         }
-        else
-        {
-            currentIndexFlag = tFlags.Length - 1;
-        }
-
-
-
-        Debug.Log("Current Index Flag: " + currentIndexFlag);
-        UpdateFlag(currentIndexFlag);
-        languageMenuManager.ChangeLanguageIndex = currentIndexFlag;
     }
 
     public void _ConfirmButton()
