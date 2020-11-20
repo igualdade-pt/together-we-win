@@ -102,7 +102,7 @@ public class Player_S : MonoBehaviour
 
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
-
+        
         gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f/7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.93f, 3f);
     }
 

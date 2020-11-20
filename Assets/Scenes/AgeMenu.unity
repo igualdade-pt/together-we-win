@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 299504729}
   - component: {fileID: 299504730}
   m_Layer: 0
-  m_Name: MenuManager
+  m_Name: AgeMenuManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

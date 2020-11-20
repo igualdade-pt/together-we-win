@@ -28,6 +28,30 @@ public class Player1_S : MonoBehaviour
 
     private GameObject enemy;
 
+    [SerializeField]
+    private float speedLimit = 1f;
+
+    [SerializeField]
+    private float minSpeedX = 4f;
+
+    [SerializeField]
+    private float maxSpeedX = 8f;
+
+    [SerializeField]
+    private float minSpeedY = 2f;
+
+    [SerializeField]
+    private float maxSpeedY = 4f;
+
+    [SerializeField]
+    private float minScale = 1f;
+
+    [SerializeField]
+    private float maxScale = 3f;
+
+    [SerializeField]
+    private float scaleLimit = 20f;
+
     private void Start()
     {
         myRigid = gameObject.GetComponent<Rigidbody2D>();
@@ -101,18 +125,23 @@ public class Player1_S : MonoBehaviour
     private void FixedUpdate()
     {
         // MOVEMENT
-        Vector2 move = joyStick.Direction * speed;
+        float newspeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
+        float moveX = joyStick.Direction.x * newspeedX;
 
-        if (move.x > 0 && !facingRight)
+
+        float newspeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
+        float moveY = joyStick.Direction.y * newspeedY;
+
+        if (moveX > 0 && !facingRight)
         {
             Flip();
         }
-        if (move.x < 0 && facingRight)
+        if (moveX < 0 && facingRight)
         {
             Flip();
         }
-        myRigid.velocity = move;
-        if (move.x >= 0.1 || move.y != 0)
+        myRigid.velocity = new Vector2(moveX, moveY);        
+        if (moveX >= 0.1 || moveY != 0)
         {
             myAnimator.SetFloat("speed", Mathf.Abs(1));
         }
@@ -124,7 +153,11 @@ public class Player1_S : MonoBehaviour
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
 
-        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.5f), 0.73f, 3f);
+        float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
+
+        gameObject.transform.localScale = Vector3.one * newScale;
+
+        //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.5f), 0.73f, 3f);
     }
 
     private void Flip()
