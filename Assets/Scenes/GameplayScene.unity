@@ -986,7 +986,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &526200523
 Transform:
   m_ObjectHideFlags: 0
@@ -1401,7 +1401,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &671281174
 Transform:
   m_ObjectHideFlags: 0
@@ -1517,7 +1517,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joyStick: {fileID: 592967623}
-  speed: 4
   speedLimit: 1
   minSpeedX: 4
   maxSpeedX: 8
@@ -2213,7 +2212,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joyStick: {fileID: 592967623}
-  speed: 4
   speedLimit: 4
   minSpeedX: 2.9
   maxSpeedX: 3
@@ -3819,12 +3817,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joyStick: {fileID: 592967623}
-  speed: 10
   speedLimit: 19
-  minSpeedX: 4
-  maxSpeedX: 8
-  minSpeedY: 2
-  maxSpeedY: 4
+  minSpeedX: 6
+  maxSpeedX: 10
+  minSpeedY: 4
+  maxSpeedY: 6
   minScale: 1
   maxScale: 3
   scaleLimit: 19.3
@@ -4846,7 +4843,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   joyStick: {fileID: 592967623}
-  speed: 4
   speedLimit: 1
   minSpeedX: 4
   maxSpeedX: 8
@@ -5113,14 +5109,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2037652822}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 562880040e8f0a6408868b4a8141e227, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   firstTarget: {fileID: 641369050}
   difficultyTest: 0
-  gameplayTest: 1
+  gameplayTest: 0
   delay_B: 0.3
   radiusToSearch_B: 5
   maxSpeedChasing_B: 2

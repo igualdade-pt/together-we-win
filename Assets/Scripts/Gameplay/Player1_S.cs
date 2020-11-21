@@ -15,8 +15,8 @@ public class Player1_S : MonoBehaviour
     private bool facingRight = true;
 
     [Header("Properties")]
-    [SerializeField]
-    private float speed = 4f;
+
+    private float speed = 1f;
 
     private GameplayManager gameplayManager;
 
@@ -126,11 +126,11 @@ public class Player1_S : MonoBehaviour
     {
         // MOVEMENT
         float newspeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
-        float moveX = joyStick.Direction.x * newspeedX;
+        float moveX = joyStick.Direction.x * newspeedX * speed;
 
 
         float newspeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
-        float moveY = joyStick.Direction.y * newspeedY;
+        float moveY = joyStick.Direction.y * newspeedY * speed;
 
         if (moveX > 0 && !facingRight)
         {
