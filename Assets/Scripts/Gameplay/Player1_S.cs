@@ -125,12 +125,15 @@ public class Player1_S : MonoBehaviour
     private void FixedUpdate()
     {
         // MOVEMENT
-        float newspeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
-        float moveX = joyStick.Direction.x * newspeedX * speed;
+        float newSpeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
+        float moveX = joyStick.Direction.x * newSpeedX * speed;
 
+        Debug.Log(newSpeedX);
 
-        float newspeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
-        float moveY = joyStick.Direction.y * newspeedY * speed;
+        float newSpeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
+        float moveY = joyStick.Direction.y * newSpeedY * speed;
+
+        Debug.Log(newSpeedY);
 
         if (moveX > 0 && !facingRight)
         {

@@ -147,7 +147,12 @@ public class Camera_S : MonoBehaviour
 	private float maxZoom = 10f;
 
 	[SerializeField]
-	private float zoomLimiter= 50f;
+	private float zoomLimiterX = 80f;
+
+	[SerializeField]
+	private float zoomLimiterY = 30f;
+
+	private float zoomLimiter = 80f;
 
 	private void LateUpdate() 
 	{
@@ -207,12 +212,12 @@ public class Camera_S : MonoBehaviour
 		}
 
 		float greatestDistance = bounds.size.y;
-		zoomLimiter = 30f;
+		zoomLimiter = zoomLimiterY;
 
 		if (bounds.size.x > bounds.size.y)
         {
 			greatestDistance = bounds.size.x;
-			zoomLimiter = 80f;
+			zoomLimiter = zoomLimiterX;
 
 		}
 		return greatestDistance;
