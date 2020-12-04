@@ -266,7 +266,6 @@ public class Enemy_S : MonoBehaviour
 
     public void SetSpeed(float speed)
     {
-        Debug.Log(speed + " HELLO?");
         agent.maxSpeed = speed;
         agent.canMove = false;
     }

@@ -14,8 +14,11 @@ public class Player1_S : MonoBehaviour
 
     private bool facingRight = true;
 
-    [Header("Properties")]
+    [SerializeField]
+    private bool havePoliceStation = false;
 
+    [Header("Properties")]
+    [Space]
     private float speed = 1f;
 
     private GameplayManager gameplayManager;
@@ -57,7 +60,6 @@ public class Player1_S : MonoBehaviour
         myRigid = gameObject.GetComponent<Rigidbody2D>();
         myAnimator = gameObject.GetComponent<Animator>();
         gameplayManager = FindObjectOfType<GameplayManager>().GetComponent<GameplayManager>();
-
 
         // LAYER
         players = GameObject.FindGameObjectsWithTag("Player");
@@ -109,7 +111,7 @@ public class Player1_S : MonoBehaviour
         if (myY == min)
         {
 
-            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+            gameObject.GetComponent<Renderer>().sortingOrder = 4;
         }
         else if (myY == max)
         {
@@ -117,9 +119,9 @@ public class Player1_S : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Renderer>().sortingOrder = 1;
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
         }
-        
+
     }
 
     private void FixedUpdate()
@@ -128,12 +130,12 @@ public class Player1_S : MonoBehaviour
         float newSpeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
         float moveX = joyStick.Direction.x * newSpeedX * speed;
 
-        Debug.Log(newSpeedX);
+        //Debug.Log(newSpeedX);
 
         float newSpeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
         float moveY = joyStick.Direction.y * newSpeedY * speed;
 
-        Debug.Log(newSpeedY);
+        //Debug.Log(newSpeedY);
 
         if (moveX > 0 && !facingRight)
         {
@@ -143,7 +145,7 @@ public class Player1_S : MonoBehaviour
         {
             Flip();
         }
-        myRigid.velocity = new Vector2(moveX, moveY);        
+        myRigid.velocity = new Vector2(moveX, moveY);
         if (moveX >= 0.1 || moveY != 0)
         {
             myAnimator.SetFloat("speed", Mathf.Abs(1));
@@ -174,7 +176,7 @@ public class Player1_S : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !havePoliceStation)
         {
             gameplayManager.GameEnded(true);
         }

@@ -10,6 +10,9 @@ public class Player_S : MonoBehaviour
 
     private Rigidbody2D myRigid;
 
+    [SerializeField]
+    private bool havePoliceStation = false;
+
     [Header("Properties")]
     [SerializeField]
     private float speed = 4f;
@@ -80,7 +83,7 @@ public class Player_S : MonoBehaviour
         float min = Mathf.Min(myY, otherY, enem);
         if (myY == min)
         {
-            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+            gameObject.GetComponent<Renderer>().sortingOrder = 4;
         }
         else if (myY == max)
         {
@@ -88,7 +91,7 @@ public class Player_S : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Renderer>().sortingOrder = 1;
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
         }
 
     }
@@ -108,7 +111,7 @@ public class Player_S : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && !havePoliceStation)
         {
             gameplayManager.GameEnded(true);
         }
