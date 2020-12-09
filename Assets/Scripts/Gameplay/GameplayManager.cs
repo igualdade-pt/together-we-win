@@ -20,6 +20,12 @@ public class GameplayManager : MonoBehaviour
     [SerializeField]
     private int indexSceneToLoad = 2;
 
+    [SerializeField]
+    private GameObject [] handSObject;
+
+    [SerializeField]
+    private Animation [] handSAnimation;
+
     [Header("Light")]
     [SerializeField]
     private Light2D globalLight;
@@ -36,10 +42,13 @@ public class GameplayManager : MonoBehaviour
 
     private bool doOnce = true;
 
+    private bool gameStarted = false;
+
     private void Start()
     {
         doOnce = true;
 
+        StartCoroutine(HandCoroutine());
         // Attribute Language 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
         switch (gameInstance.LanguageIndex)
@@ -144,7 +153,57 @@ public class GameplayManager : MonoBehaviour
 
                 break;
         }
+
+        
     }
+
+    private IEnumerator HandCoroutine ()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        handSObject[0].SetActive(true);
+        handSObject[1].SetActive(true);
+
+        while (!gameStarted)
+        {
+            handSAnimation[0].Play();
+            handSAnimation[1].Play();
+            yield return new WaitForSeconds(handSAnimation[0].clip.length + 3f);
+        }
+    }
+
+    public void GameStarted(Player1_S player)
+    {
+        if (!gameStarted)
+        {
+            gameStarted = true;
+            handSObject[0].SetActive(false);
+            handSObject[1].SetActive(false);
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            for (int i = 0; i < players.Length; i++)
+            {
+                if (players[i].GetComponent<Player1_S>() != null && players[i] != player)
+                {
+                    players[i].GetComponent<Player1_S>().GameStarted();
+                }
+            }
+
+            for (int i = 0; i < enemies.Length; i++)
+            {               
+                if (enemies[i] != null)
+                {                    
+                    enemies[i].GetComponent<Enemy_S>().GameStarted();
+                }
+            }
+
+
+            Debug.Log("GameStarted");
+        }
+    }
+
 
     public void GameEnded(bool won)
     {
@@ -156,20 +215,20 @@ public class GameplayManager : MonoBehaviour
 
             doOnce = false;
             if (won)
-            {               
+            {
 
                 for (int i = 0; i < players.Length; i++)
                 {
                     if (players[i].GetComponent<Player1_S>() != null)
                     {
-                        players[i].GetComponent<Player1_S>().SetSpeed(0);                       
+                        players[i].GetComponent<Player1_S>().SetSpeed(0);
                     }
                     else
                     {
                         players[i].GetComponent<Player_S>().SetSpeed(0);
                     }
                 }
-                
+
 
                 for (int i = 0; i < enemies.Length; i++)
                 {
@@ -236,7 +295,7 @@ public class GameplayManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
 
-       AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexSceneToLoad);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexSceneToLoad);
 
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)

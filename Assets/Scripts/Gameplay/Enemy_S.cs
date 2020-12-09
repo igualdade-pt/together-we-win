@@ -65,6 +65,8 @@ public class Enemy_S : MonoBehaviour
 
     private bool sawPlayer;
 
+    private bool gameStarted = false;
+
     // ---- Layer
     [Header("GFX")]
     [SerializeField]
@@ -182,6 +184,10 @@ public class Enemy_S : MonoBehaviour
         }
 
 
+        // CAN START MOVING
+        if (!gameStarted) return;
+        
+
         // AGENT MOVEMENT
         if (agent == null) return;
 
@@ -268,6 +274,11 @@ public class Enemy_S : MonoBehaviour
     {
         agent.maxSpeed = speed;
         agent.canMove = false;
+    }
+
+    public void GameStarted()
+    {
+        gameStarted = true;
     }
 
     public void GameEnded(bool won)

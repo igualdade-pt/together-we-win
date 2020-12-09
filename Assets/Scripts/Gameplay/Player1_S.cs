@@ -14,6 +14,8 @@ public class Player1_S : MonoBehaviour
 
     private bool facingRight = true;
 
+    private bool gameStarted = false;
+
     [SerializeField]
     private bool havePoliceStation = false;
 
@@ -163,6 +165,15 @@ public class Player1_S : MonoBehaviour
         gameObject.transform.localScale = Vector3.one * newScale;
 
         //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.5f), 0.73f, 3f);
+
+
+        // CONDITION TO START GAME
+        if (gameStarted) return;
+        if (myRigid.velocity != Vector2.zero)
+        {
+            gameStarted = true;
+            gameplayManager.GameStarted(this);
+        }
     }
 
     private void Flip()
@@ -189,5 +200,10 @@ public class Player1_S : MonoBehaviour
     public void SetSpeed(float temp)
     {
         speed = temp;
+    }
+
+    public void GameStarted()
+    {
+        gameStarted = true;
     }
 }
