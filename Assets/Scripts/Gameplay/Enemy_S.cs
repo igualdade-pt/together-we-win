@@ -15,6 +15,15 @@ public class Enemy_S : MonoBehaviour
     [SerializeField]
     private bool gameplayTest = false;
 
+    [SerializeField]
+    private float minScale = 0.6f;
+
+    [SerializeField]
+    private float maxScale = 0.8f;
+
+    [SerializeField]
+    private float scaleLimit = 20f;
+
     [Header("Difficulty Basic")]
     [SerializeField]
     private float delay_B = 0f;
@@ -146,7 +155,7 @@ public class Enemy_S : MonoBehaviour
         float min = Mathf.Min(myY, p1, p2);
         if (myY == min)
         {
-            mySpriteRenderer.sortingOrder = 2;
+            mySpriteRenderer.sortingOrder = 4;
         }
         else if (myY == max)
         {
@@ -154,7 +163,7 @@ public class Enemy_S : MonoBehaviour
         }
         else
         {
-            mySpriteRenderer.sortingOrder = 1;
+            mySpriteRenderer.sortingOrder = 2;
         }
         
     }
@@ -172,7 +181,7 @@ public class Enemy_S : MonoBehaviour
         if (myY == min)
         {
 
-            mySpriteRenderer.sortingOrder = 2;
+            mySpriteRenderer.sortingOrder = 4;
         }
         else if (myY == max)
         {
@@ -180,7 +189,7 @@ public class Enemy_S : MonoBehaviour
         }
         else
         {
-            mySpriteRenderer.sortingOrder = 1;
+            mySpriteRenderer.sortingOrder = 2;
         }
 
 
@@ -226,7 +235,11 @@ public class Enemy_S : MonoBehaviour
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
 
-        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.9f, 3f);
+        float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
+
+        gameObject.transform.localScale = Vector3.one * newScale;
+
+        //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.9f, 3f);
     }
 
     private void OnTriggerEnter2D(Collider2D other)

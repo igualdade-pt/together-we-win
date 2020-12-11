@@ -4,119 +4,6 @@ using UnityEngine;
 
 public class Camera_S : MonoBehaviour
 {
-	/*[Header("Tolerance")]
-	[SerializeField]
-	private float xTolerance = 1f;
-	[SerializeField]
-	private float yTolerance = 0.5f;
-
-	[Header("Velocity")]
-	[SerializeField]
-	private float speed = 2f;
-
-	private float targetX;
-	private float targetY;
-
-	[Header("Limits")]
-	[SerializeField]
-	private float maxDistanceX = 10;
-	[SerializeField]
-	private float minDistanceX = -10;
-
-	[SerializeField]
-	private float maxDistanceY = 5;
-	[SerializeField]
-	private float minDistanceY = -5;
-
-	[SerializeField]
-	private float valueY = -5;
-
-	private Transform[] playersTransform;
-
-    private Vector3 midPoint;
-
-    private bool runCamera = false;
-
-    private void Start()
-    {
-        var players = GameObject.FindGameObjectsWithTag("Player");
-
-        playersTransform = new Transform[players.Length];
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            playersTransform[i] = players[i].transform;
-        }
-
-        runCamera = true;
-
-    }
-
-    private void Update()
-    {
-        if (runCamera)
-        {
-            midPoint = (playersTransform[0].position + playersTransform[1].position) / 2;
-
-			if (CheckXTolerance())
-			{
-				targetX = midPoint.x;
-			}
-
-			if (CheckYTolerance())
-			{
-				targetY = midPoint.y + valueY;
-				Debug.Log(targetY);
-			}
-
-
-			if (targetX > maxDistanceX)
-			{
-				targetX = maxDistanceX;
-			}
-
-			if (targetX < minDistanceX)
-			{
-				targetX = minDistanceX;
-			}
-
-			if (targetY > maxDistanceY)
-			{
-				targetY = maxDistanceY;
-			}
-
-			if (targetY < minDistanceY)
-			{
-				targetY = minDistanceY;
-			}			
-
-            Vector3 finalPosition = new Vector3(targetX, targetY, transform.position.z);
-
-            transform.position = Vector3.Lerp(transform.position, finalPosition, Time.deltaTime * speed);
-			
-			// Zoom
-            //Debug.Log(Vector3.Distance(playersTransform[0].position, playersTransform[1].position));
-			float pointDistance = Vector3.Distance(playersTransform[0].position, playersTransform[1].position);
-			float x = pointDistance * 23f / 65;
-			Camera.main.orthographicSize = Mathf.Lerp(Camera.main.orthographicSize, Mathf.Clamp(x, 18f, 23f), Time.deltaTime * 10);           
-        }
-
-    }
-
-
-	private bool CheckXTolerance()
-	{
-		return Mathf.Abs(
-			transform.position.x - midPoint.x
-						 ) > xTolerance;
-	}
-
-	private bool CheckYTolerance()
-	{
-		return Mathf.Abs(
-			transform.position.y - midPoint.y
-		) > yTolerance;
-	}*/
 
 	[Header("Limits")]
 	[SerializeField]
@@ -154,8 +41,13 @@ public class Camera_S : MonoBehaviour
 
 	private float zoomLimiter = 80f;
 
+	private bool gameStarted = false;
+
 	private void LateUpdate() 
 	{
+		if (!gameStarted)
+			return;
+
 		if (targets.Count == 0)
 			return;
 
@@ -239,6 +131,11 @@ public class Camera_S : MonoBehaviour
         }
 
 		return bounds.center;
+	}
+
+	public void GameStarted()
+	{
+		gameStarted = true;	
 	}
 }
 

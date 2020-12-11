@@ -177,11 +177,17 @@ public class GameplayManager : MonoBehaviour
         if (!gameStarted)
         {
             gameStarted = true;
-            handSObject[0].SetActive(false);
-            handSObject[1].SetActive(false);
+
+            for (int i = 0; i < handSObject.Length; i++)
+            {
+                handSObject[i].SetActive(false);
+            }
+
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
             GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+            Camera camera = Camera.main;
 
             for (int i = 0; i < players.Length; i++)
             {
@@ -199,6 +205,7 @@ public class GameplayManager : MonoBehaviour
                 }
             }
 
+            camera.GetComponent<Camera_S>().GameStarted();
 
             Debug.Log("GameStarted");
         }
