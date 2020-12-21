@@ -3273,6 +3273,7 @@ GameObject:
   m_Component:
   - component: {fileID: 548923396}
   - component: {fileID: 548923395}
+  - component: {fileID: 548923400}
   - component: {fileID: 548923399}
   - component: {fileID: 548923398}
   - component: {fileID: 548923397}
@@ -3323,7 +3324,7 @@ SpriteRenderer:
   m_SortingLayerID: 1359940611
   m_SortingLayer: 3
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 844dfb5c379ea124ca74656b42d04e64, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 890d6f9679b98214599dd82f65b1212a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -3402,6 +3403,25 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &548923400
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 548923394}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bf25d9b22cf8a394aacf6f15744c5b34, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &557060893
 GameObject:
   m_ObjectHideFlags: 0
@@ -13568,6 +13588,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1912445904}
   - component: {fileID: 1912445910}
+  - component: {fileID: 1912445911}
   - component: {fileID: 1912445909}
   - component: {fileID: 1912445908}
   - component: {fileID: 1912445907}
@@ -13764,7 +13785,7 @@ SpriteRenderer:
   m_SortingLayerID: 1359940611
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: fa617b70ee9535f47bdcda8870c2086d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 936eeaaf534836346b13ef44eb4a1eb8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -13775,6 +13796,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1912445911
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912445903}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 178219af1d133ff4585f43475fd42e52, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1917738581
 GameObject:
   m_ObjectHideFlags: 0
@@ -14803,6 +14843,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2037652823}
   - component: {fileID: 2037652829}
+  - component: {fileID: 2037652830}
   - component: {fileID: 2037652825}
   - component: {fileID: 2037652828}
   - component: {fileID: 2037652826}
@@ -15000,7 +15041,7 @@ SpriteRenderer:
   m_SortingLayerID: 1359940611
   m_SortingLayer: 3
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: e1b6d40a04056294d9fd5fd0983eef37, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c56a930a888ef1d4686a90f102716245, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15011,6 +15052,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &2037652830
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2037652822}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: fabec0e416ca4cf4296a680a933a7c6e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &2041552340
 GameObject:
   m_ObjectHideFlags: 0
