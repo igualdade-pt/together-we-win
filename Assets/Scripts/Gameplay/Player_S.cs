@@ -125,4 +125,9 @@ public class Player_S : MonoBehaviour
     {
         speed = temp;      
     }
+
+    public void GameEnded()
+    {
+       
+    }
 }

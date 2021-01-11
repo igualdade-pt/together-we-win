@@ -193,14 +193,20 @@ public class Player1_S : MonoBehaviour
         }
         if (other.tag == "EnemyCollider")
         {
-            myAnimator.SetTrigger("lost");
+            gameplayManager.GameEnded(false);
+            
         }
     }
 
 
     private void LostGame()
     {
-        gameplayManager.GameEnded(false);
+        
+    }
+
+    public void GameEnded()
+    {
+        myAnimator.SetTrigger("lost");
     }
 
     public void SetSpeed(float temp)

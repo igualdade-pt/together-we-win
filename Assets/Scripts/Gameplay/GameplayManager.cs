@@ -273,10 +273,12 @@ public class GameplayManager : MonoBehaviour
                         if (players[i].GetComponent<Player1_S>() != null)
                         {
                             players[i].GetComponent<Player1_S>().SetSpeed(0);
+                            players[i].GetComponent<Player1_S>().GameEnded();
                         }
                         else
                         {
                             players[i].GetComponent<Player_S>().SetSpeed(0);
+                            players[i].GetComponent<Player_S>().GameEnded();
                         }
                     }
                 }
