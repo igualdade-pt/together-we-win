@@ -4260,13 +4260,15 @@ MonoBehaviour:
   - {fileID: 1587476699}
   - {fileID: 393941036}
   - {fileID: 106159137}
+  soundButton: {fileID: 1745771112}
+  spriteOffOnSound: []
+  buttonCloseBooksPanel: {fileID: 1306062661}
+  buttonBookSelectedPanel:
+  - {fileID: 850441635}
   informationPanel: {fileID: 1510454163}
   booksPanel: {fileID: 1519767418}
   buttonsBooksPanel: {fileID: 1721656740}
-  buttonCloseBooksPanel: {fileID: 1306062661}
   allBooksPanel: {fileID: 333760384}
-  buttonBookSelectedPanel:
-  - {fileID: 850441635}
 --- !u!1 &1456645453
 GameObject:
   m_ObjectHideFlags: 0
@@ -5334,7 +5336,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1389659456}
         m_TargetAssemblyTypeName: UIManager_MM, Assembly-CSharp
-        m_MethodName: _BooksButtonClicked
+        m_MethodName: _SoundButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
