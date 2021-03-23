@@ -34,8 +34,6 @@ public class LanguageMenuManager : MonoBehaviour
     private void Start()
     {
         // Orientation Screen
-        Screen.SetResolution(1920, 1080, true);
-
         Screen.orientation = ScreenOrientation.LandscapeLeft;
 
         Screen.autorotateToLandscapeRight = true;
@@ -45,6 +43,7 @@ public class LanguageMenuManager : MonoBehaviour
 
         Screen.orientation = ScreenOrientation.AutoRotation;
 
+        Screen.SetResolution(1920, 1080, true);
 
         //Check if the language is saved
         if (PlayerPrefs.HasKey("languageSystem"))
