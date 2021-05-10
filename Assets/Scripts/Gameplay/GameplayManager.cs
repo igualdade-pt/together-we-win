@@ -44,6 +44,7 @@ public class GameplayManager : MonoBehaviour
 
     private bool gameStarted = false;
 
+
     private void Start()
     {
         doOnce = true;
