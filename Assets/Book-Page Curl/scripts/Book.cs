@@ -355,11 +355,11 @@ public class Book : MonoBehaviour {
             pageDragging = false;
             float distanceToLeft = Vector2.Distance(c, ebl);
             float distanceToRight = Vector2.Distance(c, ebr);
-            if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
+/*            if (distanceToRight < distanceToLeft && mode == FlipMode.RightToLeft)
                 TweenBack();
             else if (distanceToRight > distanceToLeft && mode == FlipMode.LeftToRight)
                 TweenBack();
-            else
+            else*/
                 TweenForward();
         }
     }
@@ -431,7 +431,7 @@ public class Book : MonoBehaviour {
     }
     public IEnumerator TweenTo(Vector3 to, float duration, System.Action onFinish)
     {
-        int steps = (int)(duration / 0.025f);
+        int steps = (int)((duration + 2*(0.0001 * Vector2.Distance(to, f))) / 0.025f);
         Vector3 displacement = (to - f) / steps;
         for (int i = 0; i < steps-1; i++)
         {
