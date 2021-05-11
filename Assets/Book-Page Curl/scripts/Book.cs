@@ -67,6 +67,8 @@ public class Book : MonoBehaviour {
     //current flip mode
     FlipMode mode;
 
+    private bool canFlipPage = true;
+
     void Start()
     {
         if (!canvas) canvas=GetComponentInParent<Canvas>();
@@ -277,6 +279,7 @@ public class Book : MonoBehaviour {
     public void DragRightPageToPoint(Vector3 point)
     {
         if (currentPage >= bookPages.Length) return;
+        canFlipPage = false;
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
@@ -305,13 +308,14 @@ public class Book : MonoBehaviour {
     }
     public void OnMouseDragRightPage()
     {
-        if (interactable)
+        if (interactable && canFlipPage)
         DragRightPageToPoint(transformPoint(Input.mousePosition));
         
     }
     public void DragLeftPageToPoint(Vector3 point)
     {
         if (currentPage <= 0) return;
+        canFlipPage = false;
         pageDragging = true;
         mode = FlipMode.LeftToRight;
         f = point;
@@ -339,7 +343,7 @@ public class Book : MonoBehaviour {
     }
     public void OnMouseDragLeftPage()
     {
-        if (interactable)
+        if (interactable && canFlipPage)
         DragLeftPageToPoint(transformPoint(Input.mousePosition));
         
     }
@@ -364,6 +368,8 @@ public class Book : MonoBehaviour {
         }
     }
     Coroutine currentCoroutine;
+    
+
     void UpdateSprites()
     {
         LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
@@ -444,5 +450,10 @@ public class Book : MonoBehaviour {
         }
         if (onFinish != null)
             onFinish();
+    }
+
+    public void CanFlipPage() 
+    {
+        canFlipPage = true;
     }
 }
