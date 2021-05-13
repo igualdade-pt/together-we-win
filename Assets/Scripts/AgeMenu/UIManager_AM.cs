@@ -55,7 +55,7 @@ public class UIManager_AM : MonoBehaviour
 
     public void _AgeButton(int age)
     {
-        print("Então crl?");
+
         ageMenuManager.AgeButtonClicked(age);
     }
 }
