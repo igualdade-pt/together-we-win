@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if PLATFORM_ANDROID
+using UnityEngine.Android;
+#endif
 using UnityEngine.SceneManagement;
 
 public class LanguageMenuManager : MonoBehaviour
@@ -16,6 +19,13 @@ public class LanguageMenuManager : MonoBehaviour
     [SerializeField]
     private int indexSceneToLoad;
 
+    [SerializeField]
+    private GameObject musicManager;
+
+    [SerializeField]
+    private GameObject audioManager;
+
+
 
     private void Awake()
     {
@@ -23,17 +33,33 @@ public class LanguageMenuManager : MonoBehaviour
         if (FindObjectOfType<GameInstanceScript>() != null)
             return;
 
-        var go = new GameObject { name = "[Game Instance]" };
-        go.AddComponent<GameInstanceScript>();
-        DontDestroyOnLoad(go);
+        var gI = new GameObject { name = "[Game Instance]" };
+        gI.AddComponent<GameInstanceScript>();
+        DontDestroyOnLoad(gI);
 
         // For test
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteAll();  //-> This is for tests
+
+        // Instantiate Music Manager Prefab
+        if (FindObjectOfType<MusicManagerScript>() != null)
+            return;
+
+        var mM = Instantiate(musicManager);
+        DontDestroyOnLoad(mM);
+
+        // Instantiate Audio Manager Prefab
+        if (FindObjectOfType<AudioManager>() != null)
+            return;
+
+        var aM = Instantiate(audioManager);
+        DontDestroyOnLoad(aM);
+
+
+
     }
 
     private void Start()
     {
-        // Orientation Screen
         Screen.orientation = ScreenOrientation.LandscapeLeft;
 
         Screen.autorotateToLandscapeRight = true;
@@ -43,15 +69,29 @@ public class LanguageMenuManager : MonoBehaviour
 
         Screen.orientation = ScreenOrientation.AutoRotation;
 
-        Screen.SetResolution(1920, 1080, true);
+        // Orientation Screen
+        //Screen.SetResolution(1920, 1080, true);
+
+        Screen.fullScreen = false;
+
+        // Permission
+        #if PLATFORM_ANDROID
+        if (!Permission.HasUserAuthorizedPermission(Permission.Microphone))
+        {
+            Permission.RequestUserPermission(Permission.Microphone);
+        }
+        #endif
+
+        gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
 
         //Check if the language is saved
-        if (PlayerPrefs.HasKey("languageSystem"))
+        if (PlayerPrefs.HasKey("languageSystem") && !gameInstance.CameFromStartMenu)
         {
             indexLanguage = PlayerPrefs.GetInt("languageSystem", 0);
+            LoadLevel();
         }
-        else // If not
-        { 
+        else if (!PlayerPrefs.HasKey("languageSystem") && gameInstance.LanguageIndex == -1)
+        {
             languageSystem = Application.systemLanguage;
 
             switch (languageSystem)
@@ -83,6 +123,10 @@ public class LanguageMenuManager : MonoBehaviour
                     break;
             }
         }
+        else 
+        {
+            indexLanguage = gameInstance.LanguageIndex;
+        }
 
 
         uiManager_LM = FindObjectOfType<UIManager_LM>().GetComponent<UIManager_LM>();
@@ -90,7 +134,7 @@ public class LanguageMenuManager : MonoBehaviour
         uiManager_LM.InitUpdateFlag(indexLanguage);
         uiManager_LM.ChangeCurrentIndexFlag = indexLanguage;
 
-        gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
+
     }
 
     public void LoadLevel()
@@ -99,7 +143,15 @@ public class LanguageMenuManager : MonoBehaviour
         Debug.Log("Index Language saved: " + PlayerPrefs.GetInt("languageSystem", 0));
         gameInstance.LanguageIndex = indexLanguage;
 
-        SceneManager.LoadScene(indexSceneToLoad);
+        if (gameInstance.CameFromStartMenu)
+        {
+            gameInstance.CameFromStartMenu = false;
+            SceneManager.LoadScene(indexSceneToLoad + 1);
+        }
+        else
+        {
+            SceneManager.LoadScene(indexSceneToLoad);
+        }
 
     }
 

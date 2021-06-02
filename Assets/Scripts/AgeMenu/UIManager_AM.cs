@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager_AM : MonoBehaviour
 {
     private AgeMenuManager ageMenuManager;
+    private AudioManager audioManager;
 
     [SerializeField]
     private Text textLanguage;
@@ -13,7 +14,8 @@ public class UIManager_AM : MonoBehaviour
     private void Start()
     {
         ageMenuManager = FindObjectOfType<AgeMenuManager>().GetComponent<AgeMenuManager>();
-    }    
+        audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+    }
 
     public void UpdateLanguage(int indexLanguage)
     {
@@ -55,7 +57,9 @@ public class UIManager_AM : MonoBehaviour
 
     public void _AgeButton(int age)
     {
-
+        // Play Sound
+        audioManager.PlayClip(0, 0.6f);
+        // ****
         ageMenuManager.AgeButtonClicked(age);
     }
 }
