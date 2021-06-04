@@ -10,6 +10,10 @@ public class GameplayManager : MonoBehaviour
 
     private GameInstanceScript gameInstance;
 
+    private AudioManager audioManager;
+
+    private MusicManagerScript musicManager;
+
     private UIManager_G uiManager_G;
 
     private int indexLevel = 0;
@@ -84,6 +88,7 @@ public class GameplayManager : MonoBehaviour
 
         uiManager_G.UpdateLanguage(gameInstance.LanguageIndex);
 
+        audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
 
         // Get Level Selected
         indexLevel = gameInstance.LevelIndex;
@@ -155,7 +160,9 @@ public class GameplayManager : MonoBehaviour
                 break;
         }
 
-        
+        musicManager = FindObjectOfType<MusicManagerScript>().GetComponent<MusicManagerScript>();
+
+        musicManager.LowMusic();
     }
 
     private IEnumerator HandCoroutine ()
@@ -303,6 +310,7 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator StartLoadAsyncScene()
     {
+        musicManager.UpMusic();
         yield return new WaitForSeconds(3f);
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexSceneToLoad);

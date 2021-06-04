@@ -30,6 +30,11 @@ public class MusicManagerScript : MonoBehaviour
     private AudioMixerSnapshot musicOff;
 
     [SerializeField]
+    private AudioMixerSnapshot musicLow;
+    [SerializeField]
+    private AudioMixerSnapshot musicUp;
+
+    [SerializeField]
     float fadeTime = 8f;
     [SerializeField]
     float overlap = 6f;
@@ -39,6 +44,12 @@ public class MusicManagerScript : MonoBehaviour
 
     [SerializeField]
     float fadeTimeResumeMusic = 3f;
+
+    [SerializeField]
+    private float fadeTimeLowMusic = 1f;
+
+    [SerializeField]
+    private float fadeTimeUpMusic = 0.5f;
 
     private AudioSource m_audio1;
     private AudioSource m_audio2;
@@ -236,6 +247,18 @@ public class MusicManagerScript : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    public void LowMusic()
+    {
+        musicLow.TransitionTo(fadeTimeLowMusic);
+    }
+
+    public void UpMusic()
+    {
+        musicUp.TransitionTo(fadeTimeUpMusic);
+
+        /*StartCoroutine(ResumeMusicByFade());*/
     }
 
     // For TEST
