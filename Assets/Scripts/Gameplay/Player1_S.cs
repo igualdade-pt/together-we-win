@@ -168,12 +168,12 @@ public class Player1_S : MonoBehaviour
 
 
         // CONDITION TO START GAME
-        if (gameStarted) return;
+       /* if (gameStarted) return;
         if (myRigid.velocity != Vector2.zero)
         {
             gameStarted = true;
-            gameplayManager.GameStarted(this);
-        }
+            //gameplayManager.GameStarted(this);
+        }*/
     }
 
     private void Flip()

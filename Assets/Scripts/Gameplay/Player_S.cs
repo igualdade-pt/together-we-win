@@ -10,12 +10,38 @@ public class Player_S : MonoBehaviour
 
     private Rigidbody2D myRigid;
 
+    private bool gameStarted = false;
+
     [SerializeField]
     private bool havePoliceStation = false;
 
     [Header("Properties")]
+    [Space]
     [SerializeField]
-    private float speed = 4f;
+    private float speedLimit = 1f;
+
+    [SerializeField]
+    private float minSpeedX = 4f;
+
+    [SerializeField]
+    private float maxSpeedX = 8f;
+
+    [SerializeField]
+    private float minSpeedY = 2f;
+
+    [SerializeField]
+    private float maxSpeedY = 4f;
+
+    [SerializeField]
+    private float minScale = 1f;
+
+    [SerializeField]
+    private float maxScale = 3f;
+
+    [SerializeField]
+    private float scaleLimit = 20f;
+
+    private float speed = 1f;
 
     private GameplayManager gameplayManager;
 
@@ -27,6 +53,8 @@ public class Player_S : MonoBehaviour
     private GameObject otherPlayer;
 
     private GameObject enemy;
+
+    
 
 
     private void Start()
@@ -100,13 +128,36 @@ public class Player_S : MonoBehaviour
     private void FixedUpdate()
     {
         // MOVEMENT
-        Vector2 move = joyStick.Direction * speed;
-        myRigid.velocity = move;
+        /*Vector2 move = joyStick.Direction * speed;
+        myRigid.velocity = move;*/
 
+        // MOVEMENT
+        float newSpeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
+        float moveX = joyStick.Direction.x * newSpeedX * speed;
+
+        //Debug.Log(newSpeedX);
+
+        float newSpeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
+        float moveY = joyStick.Direction.y * newSpeedY * speed;
+
+        myRigid.velocity = new Vector2(moveX, moveY);
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
-        
-        gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f/7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.93f, 3f);
+
+        //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f/7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.93f, 3f);
+
+        float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
+
+        gameObject.transform.localScale = Vector3.one * newScale;
+
+
+        // CONDITION TO START GAME
+        if (gameStarted) return;
+        if (myRigid.velocity != Vector2.zero)
+        {
+            gameStarted = true;
+            gameplayManager.GameStarted(this);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -129,5 +180,10 @@ public class Player_S : MonoBehaviour
     public void GameEnded()
     {
        
+    }
+
+    public void GameStarted()
+    {
+        gameStarted = true;
     }
 }

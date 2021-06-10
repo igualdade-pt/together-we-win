@@ -14,7 +14,7 @@ public class GameplayManager : MonoBehaviour
 
     private MusicManagerScript musicManager;
 
-    private UIManager_G uiManager_G;
+    private UIManager_GM uiManager_GM;
 
     private int indexLevel = 0;
 
@@ -84,9 +84,9 @@ public class GameplayManager : MonoBehaviour
                 break;
         }
 
-        uiManager_G = FindObjectOfType<UIManager_G>().GetComponent<UIManager_G>();
+        uiManager_GM = FindObjectOfType<UIManager_GM>().GetComponent<UIManager_GM>();
 
-        uiManager_G.UpdateLanguage(gameInstance.LanguageIndex);
+        uiManager_GM.UpdateLanguage(gameInstance.LanguageIndex);
 
         audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
 
@@ -180,7 +180,7 @@ public class GameplayManager : MonoBehaviour
         }
     }
 
-    public void GameStarted(Player1_S player)
+    public void GameStarted(Player_S player)
     {
         if (!gameStarted)
         {
@@ -199,9 +199,9 @@ public class GameplayManager : MonoBehaviour
 
             for (int i = 0; i < players.Length; i++)
             {
-                if (players[i].GetComponent<Player1_S>() != null && players[i] != player)
+                if (players[i].GetComponent<Player_S>() != null && players[i] != player)
                 {
-                    players[i].GetComponent<Player1_S>().GameStarted();
+                    players[i].GetComponent<Player_S>().GameStarted();
                 }
             }
 
@@ -249,7 +249,6 @@ public class GameplayManager : MonoBehaviour
                 {
                     if (enemies[i] != null)
                     {
-                        enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
                         enemies[i].GetComponent<Enemy_S>().GameEnded(won);
                     }
                 }
@@ -269,7 +268,7 @@ public class GameplayManager : MonoBehaviour
                     PlayerPrefs.SetInt("unlockedLevels", index);
                 }
 
-                StartCoroutine(StartLoadAsyncScene());
+                uiManager_GM.SetGameEndedPanel(true);
             }
             else
             {
@@ -297,23 +296,28 @@ public class GameplayManager : MonoBehaviour
                     if (enemies[i] != null)
                     {
                         Debug.Log(enemies[i]);
-                        enemies[i].GetComponent<Enemy_S>().SetSpeed(0);
                         enemies[i].GetComponent<Enemy_S>().GameEnded(won);
                     }
                 }
 
                 Debug.Log("LOST");
-                StartCoroutine(StartLoadAsyncScene());
+                uiManager_GM.SetGameEndedPanel(true);
             }
         }
     }
 
-    private IEnumerator StartLoadAsyncScene()
+    public void LoadSelectedScene(int indexSelected)
     {
         musicManager.UpMusic();
+
+        StartCoroutine(StartLoadAsyncScene(indexSelected));
+    }
+
+    private IEnumerator StartLoadAsyncScene(int indexLevel)
+    {
         yield return new WaitForSeconds(3f);
 
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexSceneToLoad);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(indexLevel);
 
         // Wait until the asynchronous scene fully loads
         while (!asyncLoad.isDone)

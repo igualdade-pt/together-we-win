@@ -10,6 +10,9 @@ public class Enemy_S : MonoBehaviour
     private Transform firstTarget;
 
     [SerializeField]
+    private Transform lastTarget_Lost;
+
+    [SerializeField]
     private int difficultyTest = 1;
 
     [SerializeField]
@@ -75,6 +78,14 @@ public class Enemy_S : MonoBehaviour
     private bool sawPlayer;
 
     private bool gameStarted = false;
+
+    private bool gameEnded = false;
+
+    private bool enemyLost = false;
+
+    private float inicialDistance;
+
+    private Vector3 inicialScale;
 
     // ---- Layer
     [Header("GFX")]
@@ -165,37 +176,46 @@ public class Enemy_S : MonoBehaviour
         {
             mySpriteRenderer.sortingOrder = 2;
         }
-        
+
     }
 
 
     private void Update()
     {
         // LAYER
-        float myY = gameObject.transform.position.y + 1;
-        float p1 = players[0].transform.position.y;
-        float p2 = players[1].transform.position.y;
+        if (gameEnded && !gameStarted && enemyLost)
+        {
+            float myY = gameObject.transform.position.y + 1;
+            float p1 = players[0].transform.position.y;
+            float p2 = players[1].transform.position.y;
 
-        float max = Mathf.Max(myY, p1, p2);
-        float min = Mathf.Min(myY, p1, p2);
-        if (myY == min)
-        {
+            float max = Mathf.Max(myY, p1, p2);
+            float min = Mathf.Min(myY, p1, p2);
+            if (myY == min)
+            {
 
-            mySpriteRenderer.sortingOrder = 4;
+                mySpriteRenderer.sortingOrder = 4;
+            }
+            else if (myY == max)
+            {
+                mySpriteRenderer.sortingOrder = 0;
+            }
+            else
+            {
+                mySpriteRenderer.sortingOrder = 2;
+            }
         }
-        else if (myY == max)
+
+
+        if (gameEnded && !gameStarted)
         {
-            mySpriteRenderer.sortingOrder = 0;
-        }
-        else
-        {
-            mySpriteRenderer.sortingOrder = 2;
+            agent.destination = nextPatrolTarget;
         }
 
 
         // CAN START MOVING
         if (!gameStarted) return;
-        
+
 
         // AGENT MOVEMENT
         if (agent == null) return;
@@ -234,10 +254,19 @@ public class Enemy_S : MonoBehaviour
     {
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
+        if (!gameEnded)
+        {
+            float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
 
-        float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
+            gameObject.transform.localScale = Vector3.one * newScale;
+        }
+        else if (gameEnded && enemyLost)
+        {
+            float actualDistance = Vector3.Distance(transform.position, lastTarget_Lost.position);
+            float newScale = Mathf.Lerp(0, inicialScale.x, Mathf.Abs(actualDistance / inicialDistance));
 
-        gameObject.transform.localScale = Vector3.one * newScale;
+            gameObject.transform.localScale = Vector3.one * newScale;
+        }
 
         //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.9f, 3f);
     }
@@ -245,7 +274,7 @@ public class Enemy_S : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log(other.tag);
-        if (other.tag == "PlayerFeet")
+        if (other.tag == "PlayerFeet" && !gameEnded)
         {
             // Set the destination the player Transform
             playerTarget = other.GetComponent<Transform>();
@@ -262,7 +291,7 @@ public class Enemy_S : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "PlayerFeet")
+        if (other.tag == "PlayerFeet" && !gameEnded)
         {
             // Set the destination the last point he saw the player
             nextPatrolTarget = other.GetComponent<Transform>().position;
@@ -286,7 +315,6 @@ public class Enemy_S : MonoBehaviour
     public void SetSpeed(float speed)
     {
         agent.maxSpeed = speed;
-        agent.canMove = false;
     }
 
     public void GameStarted()
@@ -294,14 +322,25 @@ public class Enemy_S : MonoBehaviour
         gameStarted = true;
     }
 
-    public void GameEnded(bool won)
+    public void GameEnded(bool playersWon)
     {
-        if (won)
+        gameEnded = true;
+        gameStarted = false;
+        enemyLost = playersWon;
+        if (playersWon)
         {
+            agent.maxSpeed = maxSpeedChasing;
+            nextPatrolTarget = lastTarget_Lost.position;
+            inicialDistance = Vector3.Distance(transform.position, lastTarget_Lost.position);
+            inicialScale = transform.localScale;
             // Hide and Disapear
         }
         else
         {
+            agent.maxSpeed = 0;
+            agent.canMove = false;
+            gameObject.transform.localScale *= 1.3f;
+            mySpriteRenderer.sortingOrder = 4;
             // Get Big and maybe more bright
         }
 
