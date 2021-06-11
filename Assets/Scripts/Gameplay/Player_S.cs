@@ -8,6 +8,15 @@ public class Player_S : MonoBehaviour
     [SerializeField]
     private Joystick joyStick;
 
+    [SerializeField]
+    private SpriteRenderer mySpriteRenderer;
+
+    [SerializeField]
+    private Sprite oceanSprite;
+
+    [SerializeField]
+    private Sprite mySprite;
+
     private Rigidbody2D myRigid;
 
     private bool gameStarted = false;
@@ -169,6 +178,18 @@ public class Player_S : MonoBehaviour
         if (other.tag == "EnemyCollider")
         {
             gameplayManager.GameEnded(false);
+        }
+        if (other.tag == "Ocean")
+        {
+            mySpriteRenderer.sprite = oceanSprite;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Ocean")
+        {
+            mySpriteRenderer.sprite = mySprite;
         }
     }
 

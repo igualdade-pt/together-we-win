@@ -53,7 +53,10 @@ public class GameplayManager : MonoBehaviour
     {
         doOnce = true;
 
+        handSObject[0].SetActive(true);
+        handSObject[1].SetActive(true);
         StartCoroutine(HandCoroutine());
+
         // Attribute Language 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
         switch (gameInstance.LanguageIndex)
@@ -167,11 +170,6 @@ public class GameplayManager : MonoBehaviour
 
     private IEnumerator HandCoroutine ()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        handSObject[0].SetActive(true);
-        handSObject[1].SetActive(true);
-
         while (!gameStarted)
         {
             handSAnimation[0].Play();
@@ -190,6 +188,7 @@ public class GameplayManager : MonoBehaviour
             {
                 handSObject[i].SetActive(false);
             }
+            StopCoroutine(HandCoroutine());
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
@@ -260,6 +259,8 @@ public class GameplayManager : MonoBehaviour
                     globalLight.intensity = 0.8f;
                     globalLight.color = globalLightColor;
                 }
+                uiManager_GM.GameEnded(indexLevel, won);
+
                 indexLevel++;
                 if (indexLevel > PlayerPrefs.GetInt("unlockedLevels", 0))
                 {
@@ -268,7 +269,7 @@ public class GameplayManager : MonoBehaviour
                     PlayerPrefs.SetInt("unlockedLevels", index);
                 }
 
-                uiManager_GM.SetGameEndedPanel(true);
+
             }
             else
             {
@@ -301,7 +302,7 @@ public class GameplayManager : MonoBehaviour
                 }
 
                 Debug.Log("LOST");
-                uiManager_GM.SetGameEndedPanel(true);
+                uiManager_GM.GameEnded(indexLevel, won);
             }
         }
     }

@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - PlayerFeet
   - EnemyCollider
+  - Ocean
   layers:
   - Default
   - TransparentFX
