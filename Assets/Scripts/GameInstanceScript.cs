@@ -17,6 +17,8 @@ public class GameInstanceScript : MonoBehaviour
 
     private bool cameFromStartMenu = false;
 
+    private bool unlockNewLevel = false;
+
     /// <summary>
     /// Index of the chosen language
     /// </summary>
@@ -52,6 +54,15 @@ public class GameInstanceScript : MonoBehaviour
     {
         get { return cameFromStartMenu; }
         set { cameFromStartMenu = value; }
+    }
+
+    /// <summary>
+    /// The player unlock new Level
+    /// </summary>
+    public bool UnlockNewLevel
+    {
+        get { return unlockNewLevel; }
+        set { unlockNewLevel = value; }
     }
 
 }

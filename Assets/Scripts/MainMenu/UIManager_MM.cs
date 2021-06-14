@@ -9,6 +9,8 @@ public class UIManager_MM : MonoBehaviour
 
     private AudioManager audioManager;
 
+    private GameInstanceScript gameInstance;
+
     [Header("Buttons")]
     [Space]
     [SerializeField]
@@ -40,6 +42,16 @@ public class UIManager_MM : MonoBehaviour
     {
         mainMenuManager = FindObjectOfType<MainMenuManager>().GetComponent<MainMenuManager>();
         audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+
+        gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
+
+        if (gameInstance.UnlockNewLevel)
+        {
+            // Play Sound
+            audioManager.PlayClip(5, 0.3f);
+            // ****
+        }
+
     }
 
     public void _SettingsButtonClicked(int indexScene)
@@ -77,6 +89,9 @@ public class UIManager_MM : MonoBehaviour
 
     public void _GuideButtonClicked()
     {
+        // Play Sound
+        audioManager.PlayClip(0, 0.6f);
+        // ****
         loadingPanel.SetActive(true);
         mainMenuManager.LoadAsyncGamePlay(indexLevelSelected);
     }

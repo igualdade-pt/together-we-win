@@ -48,9 +48,10 @@ MonoBehaviour:
   buttonClip:
   - {fileID: 8300000, guid: c8e084c87044b464b8594ed339a9a476, type: 3}
   - {fileID: 8300000, guid: 9e02277223e235e4e96fbb2357cfa503, type: 3}
-  - {fileID: 8300000, guid: be01fb91daeb0614b901a2933312d828, type: 3}
-  - {fileID: 8300000, guid: 2b28f77d5c14cfc41a360dcb1a45da1f, type: 3}
+  - {fileID: 8300000, guid: d5e2afc7e4c99a3419fb9d575fc08691, type: 3}
+  - {fileID: 8300000, guid: 7c9ffab700a596149a08af7045fe40b9, type: 3}
   - {fileID: 8300000, guid: b570ff7eb24f53d45acc929c9b79ebae, type: 3}
+  - {fileID: 8300000, guid: d39e272d3a4d6fb4f836328474e55e57, type: 3}
   buttonVolume: 0.2
 --- !u!82 &7318535270373748891
 AudioSource:

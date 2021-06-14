@@ -12,6 +12,8 @@ public class GameplayManager : MonoBehaviour
 
     private AudioManager audioManager;
 
+    private AmbientManager ambientManager;
+
     private MusicManagerScript musicManager;
 
     private UIManager_GM uiManager_GM;
@@ -48,6 +50,13 @@ public class GameplayManager : MonoBehaviour
 
     private bool gameStarted = false;
 
+    [Header("Sounds")]
+    [SerializeField]
+    private int indexSoundWon;
+
+    [SerializeField]
+    private int indexSoundLost;
+
 
     private void Start()
     {
@@ -59,6 +68,7 @@ public class GameplayManager : MonoBehaviour
 
         // Attribute Language 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
+        gameInstance.UnlockNewLevel = false;
         switch (gameInstance.LanguageIndex)
         {
             case 0:
@@ -166,6 +176,9 @@ public class GameplayManager : MonoBehaviour
         musicManager = FindObjectOfType<MusicManagerScript>().GetComponent<MusicManagerScript>();
 
         musicManager.LowMusic();
+
+        ambientManager = FindObjectOfType<AmbientManager>().GetComponent<AmbientManager>();
+                
     }
 
     private IEnumerator HandCoroutine ()
@@ -183,6 +196,8 @@ public class GameplayManager : MonoBehaviour
         if (!gameStarted)
         {
             gameStarted = true;
+
+            ambientManager?.UpMusic();
 
             for (int i = 0; i < handSObject.Length; i++)
             {
@@ -230,6 +245,9 @@ public class GameplayManager : MonoBehaviour
             doOnce = false;
             if (won)
             {
+                // Play Sound
+                audioManager.PlayClip(indexSoundWon, 0.6f);
+                // ****
 
                 for (int i = 0; i < players.Length; i++)
                 {
@@ -264,6 +282,7 @@ public class GameplayManager : MonoBehaviour
                 indexLevel++;
                 if (indexLevel > PlayerPrefs.GetInt("unlockedLevels", 0))
                 {
+                    gameInstance.UnlockNewLevel = true;
                     int index = Mathf.Clamp(indexLevel, 0, 3);
                     Debug.Log("WON, Levels Locked: " + index);
                     PlayerPrefs.SetInt("unlockedLevels", index);
@@ -273,7 +292,9 @@ public class GameplayManager : MonoBehaviour
             }
             else
             {
-
+                // Play Sound
+                audioManager.PlayClip(indexSoundLost, 0.6f);
+                // ****
                 for (int i = 0; i < players.Length; i++)
                 {
                     if (players[i] != null)
@@ -300,15 +321,16 @@ public class GameplayManager : MonoBehaviour
                         enemies[i].GetComponent<Enemy_S>().GameEnded(won);
                     }
                 }
-
-                Debug.Log("LOST");
                 uiManager_GM.GameEnded(indexLevel, won);
             }
+
+            ambientManager?.LowMusic();
         }
     }
 
     public void LoadSelectedScene(int indexSelected)
     {
+        ambientManager?.StopAmbient();
         musicManager.UpMusic();
 
         StartCoroutine(StartLoadAsyncScene(indexSelected));

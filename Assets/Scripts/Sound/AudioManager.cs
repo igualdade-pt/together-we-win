@@ -23,6 +23,7 @@ public class AudioManager : MonoBehaviour
 
     [SerializeField]
     private float buttonVolume = 0.2f;
+
     private float maxVolumeSFX;
     private float maxVolumeMusic;
 

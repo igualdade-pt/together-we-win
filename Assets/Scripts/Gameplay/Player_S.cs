@@ -96,7 +96,7 @@ public class Player_S : MonoBehaviour
         float min = Mathf.Min(myY, otherY, enem);
         if (myY == min)
         {
-            gameObject.GetComponent<Renderer>().sortingOrder = 2;
+            gameObject.GetComponent<Renderer>().sortingOrder = 4;
         }
         else if (myY == max)
         {
@@ -104,7 +104,7 @@ public class Player_S : MonoBehaviour
         }
         else
         {
-            gameObject.GetComponent<Renderer>().sortingOrder = 1;
+            gameObject.GetComponent<Renderer>().sortingOrder = 2;
         }
 
     }

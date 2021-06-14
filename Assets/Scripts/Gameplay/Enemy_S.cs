@@ -87,6 +87,15 @@ public class Enemy_S : MonoBehaviour
 
     private Vector3 inicialScale;
 
+    private AudioSource audioSource;
+
+    [Header("SoundFX")]
+    [SerializeField]
+    private AudioClip appearClip;
+
+    [SerializeField]
+    private AudioClip chaseClip;
+
     // ---- Layer
     [Header("GFX")]
     [SerializeField]
@@ -107,6 +116,8 @@ public class Enemy_S : MonoBehaviour
 
     private void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+
         switchTime = float.PositiveInfinity;
         sawPlayer = false;
         nextPatrolTarget = firstTarget.position;
@@ -183,7 +194,7 @@ public class Enemy_S : MonoBehaviour
     private void Update()
     {
         // LAYER
-        if (gameEnded && !gameStarted && enemyLost)
+        if (!gameEnded && gameStarted && !enemyLost)
         {
             float myY = gameObject.transform.position.y + 1;
             float p1 = players[0].transform.position.y;
@@ -276,6 +287,9 @@ public class Enemy_S : MonoBehaviour
         Debug.Log(other.tag);
         if (other.tag == "PlayerFeet" && !gameEnded)
         {
+            // Play Sound
+            audioSource.PlayOneShot(chaseClip, 0.6f);
+            // ****
             // Set the destination the player Transform
             playerTarget = other.GetComponent<Transform>();
             agent.destination = playerTarget.position;
@@ -320,6 +334,9 @@ public class Enemy_S : MonoBehaviour
     public void GameStarted()
     {
         gameStarted = true;
+        // Play Sound
+        audioSource.PlayOneShot(appearClip, 0.6f);
+        // ****
     }
 
     public void GameEnded(bool playersWon)
@@ -329,7 +346,7 @@ public class Enemy_S : MonoBehaviour
         enemyLost = playersWon;
         if (playersWon)
         {
-            agent.maxSpeed = maxSpeedChasing;
+            agent.maxSpeed = maxSpeedChasing * 2;
             nextPatrolTarget = lastTarget_Lost.position;
             inicialDistance = Vector3.Distance(transform.position, lastTarget_Lost.position);
             inicialScale = transform.localScale;
