@@ -47,6 +47,28 @@ public class UIManager_SM : MonoBehaviour
     [SerializeField]
     private GameObject gamePanel;
 
+    [Header("Texts")]
+    [Space]
+    [SerializeField]
+    private GameObject [] textsInfo;
+
+    [SerializeField]
+    private GameObject[] bookEN;
+
+    [SerializeField]
+    private GameObject[] bookIT;
+
+    [SerializeField]
+    private GameObject[] bookPT;
+
+    [SerializeField]
+    private GameObject[] bookES;
+
+    [SerializeField]
+    private GameObject[] bookSE;
+
+
+    private GameObject[][] books = new GameObject[5][];
 
     private int indexBookSelected;
 
@@ -62,6 +84,25 @@ public class UIManager_SM : MonoBehaviour
         for (int i = 0; i < buttonBookSelectedPanel.Length; i++)
         {
             buttonBookSelectedPanel[i].SetActive(false);
+        }
+
+        books[0] = bookEN;
+        books[1] = bookIT;
+        books[2] = bookPT;
+        books[3] = bookES;
+        books[4] = bookSE;
+
+        for (int i = 0; i < books.Length; i++)
+        {
+            for (int j = 0; j < books[i].Length; j++)
+            {
+                books[i][j].SetActive(false);
+            }
+        }
+
+        for (int i = 0; i < textsInfo.Length; i++)
+        {
+            textsInfo[i].SetActive(false);
         }
     }
 
@@ -196,15 +237,16 @@ public class UIManager_SM : MonoBehaviour
             buttonsBooksPanel.SetActive(false);
             //buttonCloseBooksPanel.SetActive(false);
 
-            for (int i = 0; i < buttonBookSelectedPanel.Length; i++)
+           /* for (int i = 0; i < buttonBookSelectedPanel.Length; i++)
             {
+                buttonBookSelectedPanel[i].SetActive(false);
                 if (i == indexBook)
-                {
-                    buttonBookSelectedPanel[i].SetActive(true);
+                {*/
+                    buttonBookSelectedPanel[indexBook].SetActive(true);
                     allBooksPanel.SetActive(true);
                     indexBookSelected = indexBook;
-                }
-            }
+                /*}
+            }*/
         }
     }
 
@@ -282,7 +324,14 @@ public class UIManager_SM : MonoBehaviour
 
     public void UpdateLanguage(int indexLanguage)
     {
+        // Change Info Text
+        textsInfo[indexLanguage].SetActive(true);
 
+        // Change Book Pages
+        for (int i = 0; i < books[indexLanguage].Length; i++)
+        {
+            books[indexLanguage][i].SetActive(true);
+        }
     }
 
     public void ButtonSoundClick()

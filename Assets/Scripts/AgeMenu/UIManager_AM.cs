@@ -24,32 +24,32 @@ public class UIManager_AM : MonoBehaviour
         {
             case 0:
                 // English
-                textLanguage.text = "How old are you?";
+                textLanguage.text = "How Old Are You?";
                 break;
 
             case 1:
                 // Italian
-                textLanguage.text = "Quanti anni hai?";
+                textLanguage.text = "Quanti Anni Hai?";
                 break;
 
             case 2:
                 // Portuguese
-                textLanguage.text = "Quantos anos tens?";
+                textLanguage.text = "Quantos Anos Tens?";
                 break;
 
             case 3:
                 // Spanish
-                textLanguage.text = "¿Cuantos años tienes?";
+                textLanguage.text = "¿Cuantos Años Tienes?";
                 break;
 
             case 4:
                 // Swedish
-                textLanguage.text = "Hur gammal är du?";
+                textLanguage.text = "Hur Gammal Är Du?";
                 break;
 
             default:
                 // English
-                textLanguage.text = "How old are you?";
+                textLanguage.text = "How Old Are You?";
                 break;
         }
 

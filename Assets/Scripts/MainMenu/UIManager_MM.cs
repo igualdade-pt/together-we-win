@@ -16,11 +16,6 @@ public class UIManager_MM : MonoBehaviour
     [SerializeField]
     private GameObject[] levelButtons;
 
-    [SerializeField]
-    private Image guideImage;
-
-    [SerializeField]
-    private Sprite[] guideSprites;
 
     [Header("Panels")]
     [Space]
@@ -32,10 +27,48 @@ public class UIManager_MM : MonoBehaviour
 
     private int indexLevelSelected = -1;
 
+    [Header("Texts")]
+    [Space]
+    [SerializeField]
+    private Text textTitle;
+
+    [SerializeField]
+    private Image guideImage;
+
+    [SerializeField]
+    private Image guideImageLvl4;
+
+    [SerializeField]
+    private Sprite [] spriteGuide;
+
+    [SerializeField]
+    private Sprite [] spriteGuideLvl4;
+
+    [SerializeField]
+    private string[] textButtonEN;
+
+    [SerializeField]
+    private string[] textButtonIT;
+
+    [SerializeField]
+    private string[] textButtonPT;
+
+    [SerializeField]
+    private string[] textButtonES;
+
+    [SerializeField]
+    private string[] textButtonSE;
+
     private void Awake()
     {
         loadingPanel.SetActive(false);
         guidePanel.SetActive(false);
+
+        guideImage.gameObject.SetActive(false);
+        guideImageLvl4.gameObject.SetActive(false);
+
+        guideImage.sprite = spriteGuide[0];
+        guideImageLvl4.sprite = spriteGuideLvl4[0];
     }
 
     private void Start()
@@ -72,11 +105,11 @@ public class UIManager_MM : MonoBehaviour
         switch (indexLevelSelected)
         {
             case 0:
-                guideImage.sprite = guideSprites[0];
+                guideImage.gameObject.SetActive(true);
                 guidePanel.SetActive(true);
                 break;
             case 3:
-                guideImage.sprite = guideSprites[1];
+                guideImageLvl4.gameObject.SetActive(true);
                 guidePanel.SetActive(true);
                 break;
             default:
@@ -98,7 +131,72 @@ public class UIManager_MM : MonoBehaviour
 
     public void UpdateLanguage(int indexLanguage)
     {
+        // Change Title
+        switch (indexLanguage)
+        {
+            case 0:
+                // English
+                textTitle.text = "Together we win!";
 
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonEN[i];
+                }
+                break;
+
+            case 1:
+                // Italian
+                textTitle.text = "Insieme vinciamo!";
+
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonIT[i];
+                }
+                break;
+
+            case 2:
+                // Portuguese
+                textTitle.text = "Juntos vencemos!";
+
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonPT[i];
+                }
+                break;
+
+            case 3:
+                // Spanish
+                textTitle.text = "¡Juntos ganamos!";
+
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonES[i];
+                }
+                break;
+
+            case 4:
+                // Swedish
+                textTitle.text = "Tillsammans vinner vi!";
+
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonSE[i];
+                }
+                break;
+
+            default:
+                // English
+                textTitle.text = "Together we win!";
+
+                for (int i = 0; i < levelButtons.Length; i++)
+                {
+                    levelButtons[i].GetComponentInChildren<Text>().text = textButtonEN[i];
+                }
+                break;
+        }
+
+        guideImage.sprite = spriteGuide[indexLanguage];
+        guideImageLvl4.sprite = spriteGuideLvl4[indexLanguage];
     }
 
     public void UpdadeLevelButtons(int unlockedLevels)
