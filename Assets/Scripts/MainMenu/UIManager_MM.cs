@@ -136,7 +136,7 @@ public class UIManager_MM : MonoBehaviour
         {
             case 0:
                 // English
-                textTitle.text = "Together we win!";
+                textTitle.text = "Together We Win!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -146,7 +146,7 @@ public class UIManager_MM : MonoBehaviour
 
             case 1:
                 // Italian
-                textTitle.text = "Insieme vinciamo!";
+                textTitle.text = "Insieme Vinciamo!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -156,7 +156,7 @@ public class UIManager_MM : MonoBehaviour
 
             case 2:
                 // Portuguese
-                textTitle.text = "Juntos vencemos!";
+                textTitle.text = "Juntos Vencemos!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -166,7 +166,7 @@ public class UIManager_MM : MonoBehaviour
 
             case 3:
                 // Spanish
-                textTitle.text = "¡Juntos ganamos!";
+                textTitle.text = "¡Juntos Ganamos!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -176,7 +176,7 @@ public class UIManager_MM : MonoBehaviour
 
             case 4:
                 // Swedish
-                textTitle.text = "Tillsammans vinner vi!";
+                textTitle.text = "Tillsammans Vinner Vi!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {

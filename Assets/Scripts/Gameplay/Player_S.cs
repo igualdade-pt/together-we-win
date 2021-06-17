@@ -19,6 +19,10 @@ public class Player_S : MonoBehaviour
 
     private Rigidbody2D myRigid;
 
+    private Animator myAnimator;
+
+    private bool facingRight = true;
+
     private bool gameStarted = false;
 
     [SerializeField]
@@ -63,12 +67,16 @@ public class Player_S : MonoBehaviour
 
     private GameObject enemy;
 
-    
 
+    private void Awake()
+    {
+        facingRight = !mySpriteRenderer.flipX;
+    }
 
     private void Start()
     {
         myRigid = gameObject.GetComponent<Rigidbody2D>();
+        myAnimator = gameObject.GetComponent<Animator>();
         gameplayManager = FindObjectOfType<GameplayManager>().GetComponent<GameplayManager>();
 
 
@@ -149,7 +157,24 @@ public class Player_S : MonoBehaviour
         float newSpeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
         float moveY = joyStick.Direction.y * newSpeedY * speed;
 
+        if (moveX > 0 && !facingRight)
+        {
+            Flip();
+        }
+        if (moveX < 0 && facingRight)
+        {
+            Flip();
+        }
         myRigid.velocity = new Vector2(moveX, moveY);
+        if (moveX >= 0.1 || moveY != 0)
+        {
+            myAnimator.SetFloat("speed", Mathf.Abs(1));
+        }
+        else
+        {
+            myAnimator.SetFloat("speed", Mathf.Abs(0));
+        }
+
         // SCALE
         //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
 
@@ -169,6 +194,14 @@ public class Player_S : MonoBehaviour
         }
     }
 
+    private void Flip()
+    {
+        Vector3 myLocalRotation = transform.localEulerAngles;
+        myLocalRotation.y += 180f;
+        transform.localEulerAngles = myLocalRotation;
+        facingRight = !facingRight;
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player" && !havePoliceStation)
@@ -181,7 +214,8 @@ public class Player_S : MonoBehaviour
         }
         if (other.tag == "Ocean")
         {
-            mySpriteRenderer.sprite = oceanSprite;
+            // mySpriteRenderer.sprite = oceanSprite;
+            myAnimator.SetBool("ocean", true);
         }
     }
 
@@ -189,7 +223,8 @@ public class Player_S : MonoBehaviour
     {
         if (other.tag == "Ocean")
         {
-            mySpriteRenderer.sprite = mySprite;
+            //mySpriteRenderer.sprite = mySprite;
+            myAnimator.SetBool("ocean", false);
         }
     }
 
@@ -200,7 +235,7 @@ public class Player_S : MonoBehaviour
 
     public void GameEnded()
     {
-       
+        myAnimator.SetTrigger("lost");
     }
 
     public void GameStarted()

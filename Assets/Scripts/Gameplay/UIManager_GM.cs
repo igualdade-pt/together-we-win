@@ -69,7 +69,7 @@ public class UIManager_GM : MonoBehaviour
 
             case 3:
                 // ES
-                textTitleGameEnded.text = "¿Juega DSe Nuevo?";
+                textTitleGameEnded.text = "¿Juega De Nuevo?";
                 break;
 
             case 4:
