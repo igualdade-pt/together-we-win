@@ -50,7 +50,7 @@ public class UIManager_SM : MonoBehaviour
     [Header("Texts")]
     [Space]
     [SerializeField]
-    private GameObject [] textsInfo;
+    private GameObject[] textsInfo;
 
     [SerializeField]
     private GameObject[] bookEN;
@@ -237,16 +237,16 @@ public class UIManager_SM : MonoBehaviour
             buttonsBooksPanel.SetActive(false);
             //buttonCloseBooksPanel.SetActive(false);
 
-           /* for (int i = 0; i < buttonBookSelectedPanel.Length; i++)
-            {
-                buttonBookSelectedPanel[i].SetActive(false);
-                if (i == indexBook)
-                {*/
-                    buttonBookSelectedPanel[indexBook].SetActive(true);
-                    allBooksPanel.SetActive(true);
-                    indexBookSelected = indexBook;
-                /*}
-            }*/
+            /* for (int i = 0; i < buttonBookSelectedPanel.Length; i++)
+             {
+                 buttonBookSelectedPanel[i].SetActive(false);
+                 if (i == indexBook)
+                 {*/
+            buttonBookSelectedPanel[indexBook].SetActive(true);
+            allBooksPanel.SetActive(true);
+            indexBookSelected = indexBook;
+            /*}
+        }*/
         }
     }
 
