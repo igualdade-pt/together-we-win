@@ -15,7 +15,7 @@ public class UIManager_AM : MonoBehaviour
     {
         ageMenuManager = FindObjectOfType<AgeMenuManager>().GetComponent<AgeMenuManager>();
         audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
-    }
+    }    
 
     public void UpdateLanguage(int indexLanguage)
     {
@@ -24,32 +24,32 @@ public class UIManager_AM : MonoBehaviour
         {
             case 0:
                 // English
-                textLanguage.text = "How Old Are You?";
+                textLanguage.text = "How old are you?";
                 break;
 
             case 1:
                 // Italian
-                textLanguage.text = "Quanti Anni Hai?";
+                textLanguage.text = "Quanti anni hai?";
                 break;
 
             case 2:
                 // Portuguese
-                textLanguage.text = "Quantos Anos Tens?";
+                textLanguage.text = "Quantos anos tens?";
                 break;
 
             case 3:
                 // Spanish
-                textLanguage.text = "¿Cuantos Años Tienes?";
+                textLanguage.text = "¿Cuántos años tienes?";
                 break;
 
             case 4:
                 // Swedish
-                textLanguage.text = "Hur Gammal Är Du?";
+                textLanguage.text = "Hur gammal är du?";
                 break;
 
             default:
                 // English
-                textLanguage.text = "How Old Are You?";
+                textLanguage.text = "How old are you?";
                 break;
         }
 

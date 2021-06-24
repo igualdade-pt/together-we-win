@@ -50,6 +50,12 @@ public class UIManager_SM : MonoBehaviour
     [Header("Texts")]
     [Space]
     [SerializeField]
+    private GameObject handLGuide;
+
+    [SerializeField]
+    private GameObject handRGuide;
+
+    [SerializeField]
     private GameObject[] textsInfo;
 
     [SerializeField]
@@ -92,18 +98,8 @@ public class UIManager_SM : MonoBehaviour
         books[3] = bookES;
         books[4] = bookSE;
 
-        for (int i = 0; i < books.Length; i++)
-        {
-            for (int j = 0; j < books[i].Length; j++)
-            {
-                books[i][j].SetActive(false);
-            }
-        }
-
-        for (int i = 0; i < textsInfo.Length; i++)
-        {
-            textsInfo[i].SetActive(false);
-        }
+        handLGuide.SetActive(true);
+        handRGuide.SetActive(true);
     }
 
     private void Start()
@@ -224,6 +220,8 @@ public class UIManager_SM : MonoBehaviour
             buttonsBooksPanel.SetActive(false);
             buttonsBooksPanel.SetActive(true);
             //buttonCloseBooksPanel.SetActive(true);
+            handLGuide.SetActive(true);
+            handRGuide.SetActive(true);
         }
     }
 
@@ -284,7 +282,8 @@ public class UIManager_SM : MonoBehaviour
             // Play Sound
             audioManager.PlayClip(0, 0.6f);
             // ****
-            Application.OpenURL("market://details?id=" + gamesLink[index]);
+            Application.OpenURL("https://colourfulchildren.eu/");
+            //Application.OpenURL("market://details?id=" + gamesLink[index]);
         }
     }
 
@@ -325,9 +324,24 @@ public class UIManager_SM : MonoBehaviour
     public void UpdateLanguage(int indexLanguage)
     {
         // Change Info Text
+        for (int i = 0; i < textsInfo.Length; i++)
+        {
+            textsInfo[i].SetActive(false);
+        }
+
         textsInfo[indexLanguage].SetActive(true);
 
+
         // Change Book Pages
+        for (int i = 0; i < books.Length; i++)
+        {
+            for (int j = 0; j < books[i].Length; j++)
+            {
+                books[i][j].SetActive(false);
+            }
+        }
+
+
         for (int i = 0; i < books[indexLanguage].Length; i++)
         {
             books[indexLanguage][i].SetActive(true);
@@ -339,5 +353,11 @@ public class UIManager_SM : MonoBehaviour
         // Play Sound
         audioManager.PlayClip(4, 0.6f);
         // ****
+    }
+
+    public void SetGuideBook()
+    {
+        handLGuide.SetActive(false);
+        handRGuide.SetActive(false);
     }
 }

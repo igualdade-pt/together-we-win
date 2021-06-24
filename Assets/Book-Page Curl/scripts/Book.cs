@@ -72,6 +72,8 @@ public class Book : MonoBehaviour
 
     private AudioManager audioManager;
 
+    private UIManager_SM uIManager_SM;
+
     void Start()
     {
         if (!canvas) canvas = GetComponentInParent<Canvas>();
@@ -100,6 +102,7 @@ public class Book : MonoBehaviour
         ShadowLTR.rectTransform.pivot = new Vector2(0, (pageWidth / 2) / shadowPageHeight);
 
         audioManager = FindObjectOfType<AudioManager>().GetComponent<AudioManager>();
+        uIManager_SM = FindObjectOfType<UIManager_SM>().GetComponent<UIManager_SM>();
     }
 
     private void CalcCurlCriticalPoints()
@@ -287,7 +290,7 @@ public class Book : MonoBehaviour
         pageDragging = true;
         mode = FlipMode.RightToLeft;
         f = point;
-
+        uIManager_SM.SetGuideBook();
 
         NextPageClip.rectTransform.pivot = new Vector2(0, 0.12f);
         ClippingPlane.rectTransform.pivot = new Vector2(1, 0.35f);
@@ -323,6 +326,7 @@ public class Book : MonoBehaviour
         pageDragging = true;
         mode = FlipMode.LeftToRight;
         f = point;
+        uIManager_SM.SetGuideBook();
 
         NextPageClip.rectTransform.pivot = new Vector2(1, 0.12f);
         ClippingPlane.rectTransform.pivot = new Vector2(0, 0.35f);

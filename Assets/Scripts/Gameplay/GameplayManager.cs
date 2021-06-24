@@ -64,7 +64,7 @@ public class GameplayManager : MonoBehaviour
 
         handSObject[0].SetActive(true);
         handSObject[1].SetActive(true);
-        StartCoroutine(HandCoroutine());
+        //StartCoroutine(HandCoroutine());
 
         // Attribute Language 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
@@ -203,7 +203,7 @@ public class GameplayManager : MonoBehaviour
             {
                 handSObject[i].SetActive(false);
             }
-            StopCoroutine(HandCoroutine());
+            //StopCoroutine(HandCoroutine());
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
