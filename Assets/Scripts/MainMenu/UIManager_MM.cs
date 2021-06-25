@@ -33,6 +33,12 @@ public class UIManager_MM : MonoBehaviour
     private Text textTitle;
 
     [SerializeField]
+    private Sprite[] titleImages;
+
+    [SerializeField]
+    private Image titleImage;
+
+    [SerializeField]
     private Image guideImage;
 
     [SerializeField]
@@ -136,7 +142,7 @@ public class UIManager_MM : MonoBehaviour
         {
             case 0:
                 // English
-                textTitle.text = "Together We Win!";
+                textTitle.text = "Together We Win!";                
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -195,6 +201,7 @@ public class UIManager_MM : MonoBehaviour
                 break;
         }
 
+        titleImage.sprite = titleImages[indexLanguage];
         guideImage.sprite = spriteGuide[indexLanguage];
         guideImageLvl4.sprite = spriteGuideLvl4[indexLanguage];
     }
