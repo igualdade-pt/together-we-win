@@ -14,6 +14,8 @@ public class MainMenuManager : MonoBehaviour
 
     private GameInstanceScript gameInstance;
 
+    private MusicManagerScript musicManager;
+
     [SerializeField]
     private int indexGameplayScene = 3;
 
@@ -75,7 +77,8 @@ public class MainMenuManager : MonoBehaviour
         {
             uiManager_MM.UpdadeLevelButtons(0);
         }
-        
+
+        musicManager = FindObjectOfType<MusicManagerScript>().GetComponent<MusicManagerScript>();
     }
 
     public void LoadScene(int indexScene)
@@ -86,6 +89,7 @@ public class MainMenuManager : MonoBehaviour
     public void LoadAsyncGamePlay(int indexLevel)
     {
         gameInstance.LevelIndex = indexLevel;
+        musicManager.PlayMusicGame();
         StartCoroutine(StartLoadAsyncScene(indexGameplayScene));
     }
 

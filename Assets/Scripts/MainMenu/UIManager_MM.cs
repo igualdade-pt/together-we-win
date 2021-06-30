@@ -22,8 +22,6 @@ public class UIManager_MM : MonoBehaviour
     [SerializeField]
     private GameObject loadingPanel;
 
-    [SerializeField]
-    private GameObject guidePanel;
 
     private int indexLevelSelected = -1;
 
@@ -39,16 +37,10 @@ public class UIManager_MM : MonoBehaviour
     private Image titleImage;
 
     [SerializeField]
-    private Image guideImage;
+    private Sprite[] spriteGuide;
 
     [SerializeField]
-    private Image guideImageLvl4;
-
-    [SerializeField]
-    private Sprite [] spriteGuide;
-
-    [SerializeField]
-    private Sprite [] spriteGuideLvl4;
+    private Sprite[] spriteGuideLvl4;
 
     [SerializeField]
     private string[] textButtonEN;
@@ -68,13 +60,7 @@ public class UIManager_MM : MonoBehaviour
     private void Awake()
     {
         loadingPanel.SetActive(false);
-        guidePanel.SetActive(false);
 
-        guideImage.gameObject.SetActive(false);
-        guideImageLvl4.gameObject.SetActive(false);
-
-        guideImage.sprite = spriteGuide[0];
-        guideImageLvl4.sprite = spriteGuideLvl4[0];
     }
 
     private void Start()
@@ -84,7 +70,7 @@ public class UIManager_MM : MonoBehaviour
 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
 
-        if (gameInstance.UnlockNewLevel)
+        if (gameInstance.UnlockNewLevel && PlayerPrefs.GetInt("unlockedLevels", 0) < 4)
         {
             // Play Sound
             audioManager.PlayClip(5, 0.3f);
@@ -108,32 +94,22 @@ public class UIManager_MM : MonoBehaviour
         // ****
         indexLevelSelected = indexLevel;
 
-        switch (indexLevelSelected)
-        {
-            case 0:
-                guideImage.gameObject.SetActive(true);
-                guidePanel.SetActive(true);
-                break;
-            case 3:
-                guideImageLvl4.gameObject.SetActive(true);
-                guidePanel.SetActive(true);
-                break;
-            default:
-                loadingPanel.SetActive(true);
-                mainMenuManager.LoadAsyncGamePlay(indexLevelSelected);
-                break;
-        }
+
+        loadingPanel.SetActive(true);
+        mainMenuManager.LoadAsyncGamePlay(indexLevelSelected);
+
+
 
     }
 
-    public void _GuideButtonClicked()
+/*    public void _GuideButtonClicked()
     {
         // Play Sound
         audioManager.PlayClip(0, 0.6f);
         // ****
         loadingPanel.SetActive(true);
         mainMenuManager.LoadAsyncGamePlay(indexLevelSelected);
-    }
+    }*/
 
     public void UpdateLanguage(int indexLanguage)
     {
@@ -142,7 +118,7 @@ public class UIManager_MM : MonoBehaviour
         {
             case 0:
                 // English
-                textTitle.text = "Together We Win!";                
+                textTitle.text = "Together We Win!";
 
                 for (int i = 0; i < levelButtons.Length; i++)
                 {
@@ -202,8 +178,6 @@ public class UIManager_MM : MonoBehaviour
         }
 
         titleImage.sprite = titleImages[indexLanguage];
-        guideImage.sprite = spriteGuide[indexLanguage];
-        guideImageLvl4.sprite = spriteGuideLvl4[indexLanguage];
     }
 
     public void UpdadeLevelButtons(int unlockedLevels)
@@ -220,10 +194,13 @@ public class UIManager_MM : MonoBehaviour
         Debug.Log("Unlocked Levels:  " + unlock);
         for (int j = 0; j < unlock; j++)
         {
-            levelButtons[j].SetActive(true);
-            if (j >= unlock - 1)
+            if (j < 4)
             {
-                LeanTween.scale(levelButtons[j], levelButtons[j].transform.localScale * 1.2f, 0.5f).setLoopPingPong();
+                levelButtons[j].SetActive(true);
+                if (j >= unlock - 1)
+                {
+                    LeanTween.scale(levelButtons[j], levelButtons[j].transform.localScale * 1.2f, 0.5f).setLoopPingPong();
+                }
             }
         }
     }

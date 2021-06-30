@@ -165,59 +165,11 @@ public class Enemy_S : MonoBehaviour
                 delay = delay_B;
                 break;
         }
-
-        // LAYER
-        players = GameObject.FindGameObjectsWithTag("Player");
-
-        float myY = gameObject.transform.position.y + 1;
-        float p1 = players[0].transform.position.y;
-        float p2 = players[1].transform.position.y;
-
-        float max = Mathf.Max(myY, p1, p2);
-        float min = Mathf.Min(myY, p1, p2);
-        if (myY == min)
-        {
-            mySpriteRenderer.sortingOrder = 4;
-        }
-        else if (myY == max)
-        {
-            mySpriteRenderer.sortingOrder = 0;
-        }
-        else
-        {
-            mySpriteRenderer.sortingOrder = 2;
-        }
-
     }
 
 
     private void Update()
-    {
-        // LAYER
-        if (!gameEnded && gameStarted && !enemyLost)
-        {
-            float myY = gameObject.transform.position.y + 1;
-            float p1 = players[0].transform.position.y;
-            float p2 = players[1].transform.position.y;
-
-            float max = Mathf.Max(myY, p1, p2);
-            float min = Mathf.Min(myY, p1, p2);
-            if (myY == min)
-            {
-
-                mySpriteRenderer.sortingOrder = 4;
-            }
-            else if (myY == max)
-            {
-                mySpriteRenderer.sortingOrder = 0;
-            }
-            else
-            {
-                mySpriteRenderer.sortingOrder = 2;
-            }
-        }
-
-
+    {   
         if (gameEnded && !gameStarted)
         {
             agent.destination = nextPatrolTarget;
@@ -264,14 +216,7 @@ public class Enemy_S : MonoBehaviour
     private void FixedUpdate()
     {
         // SCALE
-        //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
-        if (!gameEnded)
-        {
-            float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
-
-            gameObject.transform.localScale = Vector3.one * newScale;
-        }
-        else if (gameEnded && enemyLost)
+        if (gameEnded && enemyLost)
         {
             float actualDistance = Vector3.Distance(transform.position, lastTarget_Lost.position);
             float newScale = Mathf.Lerp(0, inicialScale.x, Mathf.Abs(actualDistance / inicialDistance));
@@ -285,7 +230,7 @@ public class Enemy_S : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log(other.tag);
-        if (other.tag == "PlayerFeet" && !gameEnded)
+        if (other.tag == "Player" && !gameEnded)
         {
             // Play Sound
             audioSource.PlayOneShot(chaseClip, 0.6f);
@@ -305,7 +250,7 @@ public class Enemy_S : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "PlayerFeet" && !gameEnded)
+        if (other.tag == "Player" && !gameEnded)
         {
             // Set the destination the last point he saw the player
             nextPatrolTarget = other.GetComponent<Transform>().position;

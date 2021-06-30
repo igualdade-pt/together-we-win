@@ -6,6 +6,9 @@ using UnityEngine.Experimental.Rendering.Universal;
 public class Player_S : MonoBehaviour
 {
     [SerializeField]
+    private bool mobile = true;
+
+    [SerializeField]
     private Joystick joyStick;
 
     [SerializeField]
@@ -24,6 +27,11 @@ public class Player_S : MonoBehaviour
     private bool facingRight = true;
 
     private bool gameStarted = false;
+
+    private bool gameEnded = false;
+
+    [SerializeField]
+    private LayerMask layerMask;
 
     [SerializeField]
     private bool havePoliceStation = false;
@@ -59,7 +67,7 @@ public class Player_S : MonoBehaviour
     private GameplayManager gameplayManager;
 
     // ---- Layer
-    private GameObject [] players;
+    private GameObject[] players;
 
     private GameObject[] enemies;
 
@@ -67,6 +75,7 @@ public class Player_S : MonoBehaviour
 
     private GameObject enemy;
 
+    private int myIndex;
 
     private void Awake()
     {
@@ -78,121 +87,95 @@ public class Player_S : MonoBehaviour
         myRigid = gameObject.GetComponent<Rigidbody2D>();
         myAnimator = gameObject.GetComponent<Animator>();
         gameplayManager = FindObjectOfType<GameplayManager>().GetComponent<GameplayManager>();
-
-
-        // LAYER
-        players = GameObject.FindGameObjectsWithTag("Player");
-
-        enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
-        for (int i = 0; i < players.Length; i++)
-        {
-            if (players[i] != gameObject)
-            {
-                otherPlayer = players[i];
-                Debug.Log(players[i]);
-            }
-        }
-
-        enemy = enemies[0];
-
-        float myY = gameObject.transform.position.y;
-        float otherY = otherPlayer.transform.position.y;
-        float enem = enemy.transform.position.y + 1;
-
-        float max = Mathf.Max(myY, otherY, enem);
-        float min = Mathf.Min(myY, otherY, enem);
-        if (myY == min)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 4;
-        }
-        else if (myY == max)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 0;
-        }
-        else
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 2;
-        }
-
     }
 
     private void Update()
     {
-        // LAYER
-        float myY = gameObject.transform.position.y;
-        float otherY = otherPlayer.transform.position.y;
-        float enem = enemy.transform.position.y + 1;
+        if (!gameEnded)
+        {
+            switch (mobile)
+            {
+                case true:
+                    // MOBILE
+                    if (Input.touchCount > 0)
+                    {
+                        Touch[] myTouches = Input.touches;
+                        for (int i = 0; i < Input.touchCount; i++)
+                        {
+                            var ray = Camera.main.ScreenToWorldPoint(myTouches[i].position);
 
-        float max = Mathf.Max(myY, otherY, enem);
-        float min = Mathf.Min(myY, otherY, enem);
-        if (myY == min)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 4;
-        }
-        else if (myY == max)
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 0;
-        }
-        else
-        {
-            gameObject.GetComponent<Renderer>().sortingOrder = 2;
-        }
+                            RaycastHit2D hit = Physics2D.Linecast(ray, ray, layerMask);
+                            Debug.DrawLine(ray, ray, Color.red);
 
+                            if (hit.collider == gameObject.GetComponent<Collider2D>())
+                            {
+                                myIndex = i;
+                                Vector2 mousePos = Camera.main.ScreenToWorldPoint(myTouches[i].position);
+
+                                Vector3 compareFlip = (ray - GetComponent<Transform>().position).normalized;
+
+                                GetComponent<Transform>().position = mousePos;
+
+
+                                if (myTouches[i].deltaPosition == Vector2.zero)
+                                {
+                                    myAnimator.SetFloat("speed", Mathf.Abs(0));
+                                }
+                                else
+                                {
+                                    myAnimator.SetFloat("speed", Mathf.Abs(1));
+                                }
+
+
+                                if (compareFlip.x > 0 && !facingRight)
+                                {
+                                    Flip();
+                                }
+                                if (compareFlip.x < 0 && facingRight)
+                                {
+                                    Flip();
+                                }
+                            }
+                            else if (i == myIndex)
+                            {
+                                myAnimator.SetFloat("speed", Mathf.Abs(0));
+                            }
+                        }
+
+                        if (!gameStarted)
+                        {
+                            gameStarted = true;
+                            gameplayManager.GameStarted(this);
+                        }
+                    }
+                    else
+                    {
+                        myAnimator.SetFloat("speed", Mathf.Abs(0));
+                    }
+                    break;
+
+                case false:
+                    // PC
+                    if (Input.GetMouseButtonDown(0)) // MOUSE BUTTON BEGAN
+                    {
+                        var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+                        RaycastHit2D hit = Physics2D.Linecast(ray, ray);
+                        Debug.DrawLine(ray, ray, Color.red);
+
+                        if (hit.collider != null)
+                        {
+
+
+
+                        }
+                    }
+
+                    break;
+            }
+        }
     }
 
-
-    private void FixedUpdate()
-    {
-        // MOVEMENT
-        /*Vector2 move = joyStick.Direction * speed;
-        myRigid.velocity = move;*/
-
-        // MOVEMENT
-        float newSpeedX = Mathf.Lerp(minSpeedX, maxSpeedX, Mathf.Abs(transform.position.y / speedLimit));
-        float moveX = joyStick.Direction.x * newSpeedX * speed;
-
-        //Debug.Log(newSpeedX);
-
-        float newSpeedY = Mathf.Lerp(minSpeedY, maxSpeedY, Mathf.Abs(transform.position.y / speedLimit));
-        float moveY = joyStick.Direction.y * newSpeedY * speed;
-
-        if (moveX > 0 && !facingRight)
-        {
-            Flip();
-        }
-        if (moveX < 0 && facingRight)
-        {
-            Flip();
-        }
-        myRigid.velocity = new Vector2(moveX, moveY);
-        if (moveX >= 0.1 || moveY != 0)
-        {
-            myAnimator.SetFloat("speed", Mathf.Abs(1));
-        }
-        else
-        {
-            myAnimator.SetFloat("speed", Mathf.Abs(0));
-        }
-
-        // SCALE
-        //Debug.Log(Mathf.Clamp((((1f / 8f) * Mathf.Abs(gameObject.transform.position.y)) + 0.85f), 0.85f, 3f));
-
-        //gameObject.transform.localScale = Vector3.one * Mathf.Clamp((((1f/7f) * Mathf.Abs(gameObject.transform.position.y)) + 0.8f), 0.93f, 3f);
-
-        float newScale = Mathf.Lerp(minScale, maxScale, Mathf.Abs(transform.position.y / scaleLimit));
-
-        gameObject.transform.localScale = Vector3.one * newScale;
-
-
-        // CONDITION TO START GAME
-        if (gameStarted) return;
-        if (myRigid.velocity != Vector2.zero)
-        {
-            gameStarted = true;
-            gameplayManager.GameStarted(this);
-        }
-    }
 
     private void Flip()
     {
@@ -230,12 +213,16 @@ public class Player_S : MonoBehaviour
 
     public void SetSpeed(float temp)
     {
-        speed = temp;      
+        speed = temp;
+        gameEnded = true;
+        myAnimator.SetFloat("speed", Mathf.Abs(0));
     }
 
     public void GameEnded()
     {
         myAnimator.SetTrigger("lost");
+        gameEnded = true;
+        myAnimator.SetFloat("speed", Mathf.Abs(0));
     }
 
     public void GameStarted()

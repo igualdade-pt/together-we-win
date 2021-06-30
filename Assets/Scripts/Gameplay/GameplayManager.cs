@@ -26,12 +26,6 @@ public class GameplayManager : MonoBehaviour
     [SerializeField]
     private int indexSceneToLoad = 2;
 
-    [SerializeField]
-    private GameObject [] handSObject;
-
-    [SerializeField]
-    private Animation [] handSAnimation;
-
     [Header("Light")]
     [SerializeField]
     private Light2D globalLight;
@@ -61,10 +55,6 @@ public class GameplayManager : MonoBehaviour
     private void Start()
     {
         doOnce = true;
-
-        handSObject[0].SetActive(true);
-        handSObject[1].SetActive(true);
-        //StartCoroutine(HandCoroutine());
 
         // Attribute Language 
         gameInstance = FindObjectOfType<GameInstanceScript>().GetComponent<GameInstanceScript>();
@@ -181,15 +171,6 @@ public class GameplayManager : MonoBehaviour
                 
     }
 
-    private IEnumerator HandCoroutine ()
-    {
-        while (!gameStarted)
-        {
-            handSAnimation[0].Play();
-            handSAnimation[1].Play();
-            yield return new WaitForSeconds(handSAnimation[0].clip.length + 3f);
-        }
-    }
 
     public void GameStarted(Player_S player)
     {
@@ -198,12 +179,6 @@ public class GameplayManager : MonoBehaviour
             gameStarted = true;
 
             ambientManager?.UpMusic();
-
-            for (int i = 0; i < handSObject.Length; i++)
-            {
-                handSObject[i].SetActive(false);
-            }
-            //StopCoroutine(HandCoroutine());
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
@@ -283,7 +258,7 @@ public class GameplayManager : MonoBehaviour
                 if (indexLevel > PlayerPrefs.GetInt("unlockedLevels", 0))
                 {
                     gameInstance.UnlockNewLevel = true;
-                    int index = Mathf.Clamp(indexLevel, 0, 3);
+                    int index = Mathf.Clamp(indexLevel, 0, 4);
                     Debug.Log("WON, Levels Locked: " + index);
                     PlayerPrefs.SetInt("unlockedLevels", index);
                 }
@@ -332,6 +307,10 @@ public class GameplayManager : MonoBehaviour
     {
         ambientManager?.StopAmbient();
         musicManager.UpMusic();
+        if (indexSelected == 3)
+        {
+            musicManager.PlayMusicMenu();
+        }
 
         StartCoroutine(StartLoadAsyncScene(indexSelected));
     }
