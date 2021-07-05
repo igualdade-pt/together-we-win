@@ -83,6 +83,7 @@ public class UIManager_MM : MonoBehaviour
     {
         // Play Sound
         audioManager.PlayClip(0, 0.6f);
+        loadingPanel.SetActive(true);
         // ****
         mainMenuManager.LoadScene(indexScene);
     }
