@@ -34,6 +34,9 @@ public class Player_S : MonoBehaviour
     private LayerMask layerMask;
 
     [SerializeField]
+    private LayerMask layerWallMask;
+
+    [SerializeField]
     private bool havePoliceStation = false;
 
     [Header("Properties")]
@@ -114,7 +117,12 @@ public class Player_S : MonoBehaviour
 
                                 Vector3 compareFlip = (ray - GetComponent<Transform>().position).normalized;
 
-                                GetComponent<Transform>().position = mousePos;
+                                RaycastHit2D hitWall = Physics2D.Linecast(ray, ray, layerWallMask);
+                                Debug.Log(hitWall.collider);
+                                if (hitWall.collider == null)
+                                {
+                                    GetComponent<Transform>().position = mousePos;
+                                }
 
 
                                 if (myTouches[i].deltaPosition == Vector2.zero)

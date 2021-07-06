@@ -1090,6 +1090,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 22
   minSpeedX: 4
@@ -2734,6 +2737,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 19
   minSpeedX: 6
@@ -4166,6 +4172,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 4
   minSpeedX: 2.9
@@ -4880,6 +4889,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 22
   minSpeedX: 4
@@ -7712,7 +7724,7 @@ GameObject:
   - component: {fileID: 881923207}
   m_Layer: 10
   m_Name: WallsPlayer
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9472,7 +9484,7 @@ GameObject:
   - component: {fileID: 1123108892}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10622,7 +10634,7 @@ GameObject:
   - component: {fileID: 1211845519}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14599,6 +14611,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 4
   minSpeedX: 2.9
@@ -15031,7 +15046,7 @@ GameObject:
   - component: {fileID: 1754854389}
   m_Layer: 10
   m_Name: Walls
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15477,6 +15492,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 0
   speedLimit: 19
   minSpeedX: 6
@@ -18096,6 +18114,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 1
   speedLimit: 45
   minSpeedX: 8
@@ -18268,6 +18289,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 256
+  layerWallMask:
+    serializedVersion: 2
+    m_Bits: 1024
   havePoliceStation: 1
   speedLimit: 45
   minSpeedX: 8
