@@ -9,6 +9,9 @@ public class Player_S : MonoBehaviour
     private bool mobile = true;
 
     [SerializeField]
+    private int playerNumber;
+
+    [SerializeField]
     private Joystick joyStick;
 
     [SerializeField]
@@ -65,6 +68,7 @@ public class Player_S : MonoBehaviour
     [SerializeField]
     private float scaleLimit = 20f;
 
+    [SerializeField]
     private float speed = 1f;
 
     private GameplayManager gameplayManager;
@@ -164,22 +168,84 @@ public class Player_S : MonoBehaviour
 
                 case false:
                     // PC
-                    if (Input.GetMouseButtonDown(0)) // MOUSE BUTTON BEGAN
+                    if (myRigid.velocity != Vector2.zero)
                     {
-                        var ray = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-                        RaycastHit2D hit = Physics2D.Linecast(ray, ray);
-                        Debug.DrawLine(ray, ray, Color.red);
-
-                        if (hit.collider != null)
+                        if (!gameStarted)
                         {
-
-
-
+                            gameStarted = true;
+                            gameplayManager.GameStarted(this);
                         }
                     }
 
                     break;
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (!gameEnded)
+        {
+            if (!mobile)
+            {
+                //PC
+                switch (playerNumber)
+                {
+                    case 1:
+                        float horizontalMove1 = Input.GetAxisRaw("Horizontal1");
+                        float VerticalMove1 = Input.GetAxisRaw("Vertical1");
+
+                        if (horizontalMove1 > 0 & !facingRight)
+                        {
+                            Flip();
+                        }
+
+                        if (horizontalMove1 < 0 & facingRight)
+                        {
+                            Flip();
+                        }
+
+                        myRigid.velocity = new Vector2(horizontalMove1 * speed, VerticalMove1 * speed);
+                        if (VerticalMove1 != 0 || horizontalMove1 != 0)
+                        {
+                            myAnimator.SetFloat("speed", 1);
+                        }
+                        else
+                        {
+                            myAnimator.SetFloat("speed", 0);
+                        }
+
+                        break;
+
+                    case 0:
+                        float horizontalMove2 = Input.GetAxisRaw("Horizontal2");
+                        float VerticalMove2 = Input.GetAxisRaw("Vertical2");
+
+                        if (horizontalMove2 > 0 & !facingRight)
+                        {
+                            Flip();
+                        }
+
+                        if (horizontalMove2 < 0 & facingRight)
+                        {
+                            Flip();
+                        }
+
+                        myRigid.velocity = new Vector2(horizontalMove2 * speed, VerticalMove2 * speed);
+                        if (VerticalMove2 != 0 || horizontalMove2 != 0)
+                        {
+                            myAnimator.SetFloat("speed", 1);
+                        }
+                        else
+                        {
+                            myAnimator.SetFloat("speed", 0);
+                        }
+
+                        break;
+
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -222,6 +288,10 @@ public class Player_S : MonoBehaviour
     public void SetSpeed(float temp)
     {
         speed = temp;
+        if (!mobile)
+        {
+            myRigid.velocity = Vector2.zero;
+        }
         gameEnded = true;
         myAnimator.SetFloat("speed", Mathf.Abs(0));
     }
