@@ -5,8 +5,8 @@ using UnityEngine.Experimental.Rendering.Universal;
 
 public class Player_S : MonoBehaviour
 {
-    [SerializeField]
-    private bool mobile = true;
+    //[SerializeField]
+    //private bool mobile = true;
 
     [SerializeField]
     private int playerNumber;
@@ -100,85 +100,81 @@ public class Player_S : MonoBehaviour
     {
         if (!gameEnded)
         {
-            switch (mobile)
+#if !UNITY_WEBGL
             {
-                case true:
-                    // MOBILE
-                    if (Input.touchCount > 0)
+                // MOBILE
+                if (Input.touchCount > 0)
+                {
+                    Touch[] myTouches = Input.touches;
+                    for (int i = 0; i < Input.touchCount; i++)
                     {
-                        Touch[] myTouches = Input.touches;
-                        for (int i = 0; i < Input.touchCount; i++)
+                        var ray = Camera.main.ScreenToWorldPoint(myTouches[i].position);
+
+                        RaycastHit2D hit = Physics2D.Linecast(ray, ray, layerMask);
+                        Debug.DrawLine(ray, ray, Color.red);
+
+                        if (hit.collider == gameObject.GetComponent<Collider2D>())
                         {
-                            var ray = Camera.main.ScreenToWorldPoint(myTouches[i].position);
+                            myIndex = i;
+                            Vector2 mousePos = Camera.main.ScreenToWorldPoint(myTouches[i].position);
 
-                            RaycastHit2D hit = Physics2D.Linecast(ray, ray, layerMask);
-                            Debug.DrawLine(ray, ray, Color.red);
+                            Vector3 compareFlip = (ray - GetComponent<Transform>().position).normalized;
 
-                            if (hit.collider == gameObject.GetComponent<Collider2D>())
+                            RaycastHit2D hitWall = Physics2D.Linecast(ray, ray, layerWallMask);
+                            Debug.Log(hitWall.collider);
+                            if (hitWall.collider == null)
                             {
-                                myIndex = i;
-                                Vector2 mousePos = Camera.main.ScreenToWorldPoint(myTouches[i].position);
-
-                                Vector3 compareFlip = (ray - GetComponent<Transform>().position).normalized;
-
-                                RaycastHit2D hitWall = Physics2D.Linecast(ray, ray, layerWallMask);
-                                Debug.Log(hitWall.collider);
-                                if (hitWall.collider == null)
-                                {
-                                    GetComponent<Transform>().position = mousePos;
-                                }
-
-
-                                if (myTouches[i].deltaPosition == Vector2.zero)
-                                {
-                                    myAnimator.SetFloat("speed", Mathf.Abs(0));
-                                }
-                                else
-                                {
-                                    myAnimator.SetFloat("speed", Mathf.Abs(1));
-                                }
-
-
-                                if (compareFlip.x > 0 && !facingRight)
-                                {
-                                    Flip();
-                                }
-                                if (compareFlip.x < 0 && facingRight)
-                                {
-                                    Flip();
-                                }
+                                GetComponent<Transform>().position = mousePos;
                             }
-                            else if (i == myIndex)
+
+
+                            if (myTouches[i].deltaPosition == Vector2.zero)
                             {
                                 myAnimator.SetFloat("speed", Mathf.Abs(0));
                             }
-                        }
+                            else
+                            {
+                                myAnimator.SetFloat("speed", Mathf.Abs(1));
+                            }
 
+
+                            if (compareFlip.x > 0 && !facingRight)
+                            {
+                                Flip();
+                            }
+                            if (compareFlip.x < 0 && facingRight)
+                            {
+                                Flip();
+                            }
+                        }
+                        else if (i == myIndex)
+                        {
+                            myAnimator.SetFloat("speed", Mathf.Abs(0));
+                        }
+                    }
+
+                    if (!gameStarted)
+                    {
+                        gameStarted = true;
+                        gameplayManager.GameStarted(this);
+                    }
+                }
+                else
+                {
+                    myAnimator.SetFloat("speed", Mathf.Abs(0));
+                }
+            }    
+#else
+                // PC
+                if (myRigid.velocity != Vector2.zero)
+                    {
                         if (!gameStarted)
                         {
                             gameStarted = true;
                             gameplayManager.GameStarted(this);
                         }
                     }
-                    else
-                    {
-                        myAnimator.SetFloat("speed", Mathf.Abs(0));
-                    }
-                    break;
-
-                case false:
-                    // PC
-                    if (myRigid.velocity != Vector2.zero)
-                    {
-                        if (!gameStarted)
-                        {
-                            gameStarted = true;
-                            gameplayManager.GameStarted(this);
-                        }
-                    }
-
-                    break;
-            }
+#endif
         }
     }
 
@@ -186,8 +182,7 @@ public class Player_S : MonoBehaviour
     {
         if (!gameEnded)
         {
-            if (!mobile)
-            {
+#if UNITY_WEBGL
                 //PC
                 switch (playerNumber)
                 {
@@ -245,8 +240,9 @@ public class Player_S : MonoBehaviour
 
                     default:
                         break;
-                }
+                
             }
+#endif
         }
     }
 
@@ -288,10 +284,9 @@ public class Player_S : MonoBehaviour
     public void SetSpeed(float temp)
     {
         speed = temp;
-        if (!mobile)
-        {
-            myRigid.velocity = Vector2.zero;
-        }
+#if UNITY_WEBGL
+        myRigid.velocity = Vector2.zero;        
+#endif
         gameEnded = true;
         myAnimator.SetFloat("speed", Mathf.Abs(0));
     }
