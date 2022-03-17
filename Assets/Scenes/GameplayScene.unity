@@ -1082,7 +1082,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 0
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 132738610}
@@ -2734,7 +2733,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 1
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 353340811}
@@ -4175,7 +4173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 0
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 525528772}
@@ -4894,7 +4891,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 1
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 592783786}
@@ -10377,19 +10373,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 280373585014895046, guid: b642a103814ad884a971e48731e8fc52, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 280373585014895046, guid: b642a103814ad884a971e48731e8fc52, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 454640873}
+      objectReference: {fileID: 709254749}
     - target: {fileID: 280373585014895046, guid: b642a103814ad884a971e48731e8fc52, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GameEnded
+      value: _Return
       objectReference: {fileID: 0}
     - target: {fileID: 280373585014895046, guid: b642a103814ad884a971e48731e8fc52, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: GameplayManager, Assembly-CSharp
+      value: UIManager_GM, Assembly-CSharp
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b642a103814ad884a971e48731e8fc52, type: 3}
@@ -14740,7 +14736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 1
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 1716546051}
@@ -15623,7 +15618,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 0
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 1808348560}
@@ -18247,7 +18241,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 1
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 2027268910}
@@ -18424,7 +18417,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e4a0d1dd38be14fba193904bac9ecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobile: 0
   playerNumber: 0
   joyStick: {fileID: 0}
   mySpriteRenderer: {fileID: 2028765148}
